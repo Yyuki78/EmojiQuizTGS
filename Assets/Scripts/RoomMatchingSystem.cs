@@ -38,7 +38,7 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
         {
             if (child.TryGetComponent<RoomButton>(out var roomButton))
             {
-                roomButton.Init(this, roomId++);
+                //////////////roomButton.Init(this, roomId++);
                 roomButtonList.Add(roomButton);
             }
         }
