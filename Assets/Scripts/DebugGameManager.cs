@@ -34,7 +34,7 @@ public class DebugGameManager : MonoBehaviour
     }
 
     // 外からこのメソッドを使って状態を変更
-    //Start→Movie 動画再生ボタン
+    //Start→Movie 動画再生ボタン ChangeStateButtonsで変更
     //Movie→RoomSelect　動画再生後に自動移行
     //RoomSelect→InRoom　部屋選択ボタン
     //InRoom→MainGame　全員が準備完了にマスターからのRPC
@@ -56,6 +56,9 @@ public class DebugGameManager : MonoBehaviour
     {
         switch (state)
         {
+            case GameMode.Start:
+                StartAction();
+                break;
             case GameMode.Movie:
                 MovieAction();
                 break;
@@ -75,6 +78,20 @@ public class DebugGameManager : MonoBehaviour
         }
     }
 
+    // Startになったときの処理
+    void StartAction()
+    {
+        Debug.Log("Start");
+        StartPanel.SetActive(true);
+        MoviePanel.SetActive(false);
+        RoomSelectPanel.SetActive(false);
+        InRoomPanel.SetActive(false);
+        MainGamePanel.SetActive(false);
+        ResultPanel.SetActive(false);
+
+        StartCoroutine(WaitMovie());
+    }
+
     // Movieになったときの処理
     void MovieAction()
     {
@@ -85,6 +102,8 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(false);
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(false);
+
+        StartCoroutine(WaitMovie());
     }
 
     // RoomSelectになったときの処理
@@ -132,5 +151,13 @@ public class DebugGameManager : MonoBehaviour
         MainGamePanel.SetActive(true);
         ResultPanel.SetActive(false);
         MainGameManager.mainmode = MainGameManager.MainGameMode.LoadGame;
+    }
+
+    private IEnumerator WaitMovie()
+    {
+        //動画時間分待ってからルーム選択に移行する
+        yield return new WaitForSeconds(3f);
+        SetCurrentState(DebugGameManager.GameMode.RoomSelect);
+        yield break;
     }
 }
