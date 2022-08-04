@@ -88,8 +88,6 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(false);
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(false);
-
-        StartCoroutine(WaitMovie());
     }
 
     // Movie‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—
@@ -121,6 +119,7 @@ public class DebugGameManager : MonoBehaviour
     // InRoom‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—
     void InRoomAction()
     {
+        Debug.Log("InRoomMode");
         StartPanel.SetActive(false);
         MoviePanel.SetActive(false);
         RoomSelectPanel.SetActive(false);
@@ -132,6 +131,7 @@ public class DebugGameManager : MonoBehaviour
     // MainGame‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—
     void MainGameAction()
     {
+        Debug.Log("MainGameMode");
         StartPanel.SetActive(false);
         MoviePanel.SetActive(false);
         RoomSelectPanel.SetActive(false);
@@ -144,6 +144,7 @@ public class DebugGameManager : MonoBehaviour
     // Result‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—
     void ResultAction()
     {
+        Debug.Log("ResultMode");
         StartPanel.SetActive(false);
         MoviePanel.SetActive(false);
         RoomSelectPanel.SetActive(false);
