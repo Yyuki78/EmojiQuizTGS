@@ -28,7 +28,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
     void Update()
     {
         //MainGame‚Å‚È‚¢‚È‚çReturn
-        if (GameManager.Instance.GetCurrentState() != GameManager.GameMode.MainGame) return;
+        if (DebugGameManager.Instance.GetCurrentState() != DebugGameManager.GameMode.MainGame) return;
 
 
     }

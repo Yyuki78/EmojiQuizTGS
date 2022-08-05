@@ -12,6 +12,10 @@ public static class PlayerPropertyExtensions
 
     private static readonly Hashtable numToSet = new Hashtable();
 
+    private const string ReadyBoolean = "r";
+
+    private static readonly Hashtable readyToSet = new Hashtable();
+
     //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
     //　プレイヤーの番号
     //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -60,5 +64,23 @@ public static class PlayerPropertyExtensions
         numToSet[ChoiceNumKey] = choiceNum;
         player.SetCustomProperties(numToSet);
         numToSet.Clear();
+    }
+
+    //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+    //　準備完了かどうか
+    //＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+    // 準備完了かどうかを取得する
+    public static bool GetReady(this Player player)
+    {
+        return (player.CustomProperties[ReadyBoolean] is bool readyBool) ? readyBool : false;
+    }
+
+    // 準備完了かどうかを設定する
+    public static void SetReady(this Player player, bool readyBool)
+    {
+        readyToSet[ReadyBoolean] = readyBool;
+        player.SetCustomProperties(readyToSet);
+        readyToSet.Clear();
     }
 }
