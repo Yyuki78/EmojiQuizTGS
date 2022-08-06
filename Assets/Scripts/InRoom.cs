@@ -23,7 +23,7 @@ public class InRoom : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
 
-            //他の全プレイヤー取得
+            //全プレイヤー取得
             Player[] Players = PhotonNetwork.PlayerList;
 
             //他に人がいないならreturn
