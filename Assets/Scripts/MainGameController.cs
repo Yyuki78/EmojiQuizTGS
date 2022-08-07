@@ -32,6 +32,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
     [SerializeField] GameObject QuestionerPanel;
     [SerializeField] GameObject AnswererPanel;
 
+    [SerializeField] GameObject ReportAnswerPanel;
+
 
     private bool once = true;
 
@@ -102,6 +104,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
         AnswererText.SetActive(false);
         QuestionerPanel.SetActive(false);
         AnswererPanel.SetActive(false);
+        PhotonNetwork.LocalPlayer.SetChoiceNum(-1);
+        ReportAnswerPanel.SetActive(false);
 
         yield return new WaitForSeconds(0.01f);
 
@@ -178,6 +182,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
     //リザルト　マスターからのRPCで実行
     private IEnumerator ReportAnswer()
     {
+        ReportAnswerPanel.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         //プレイヤーの解答表示
 
