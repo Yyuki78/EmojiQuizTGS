@@ -166,12 +166,16 @@ public class ThemaGenerator : MonoBehaviour
             _choicesNum[i] = _choicesNum[randomIndex];
             _choicesNum[randomIndex] = temp;
         }
+
+        /*
         //選択肢をByte型に変換
         _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
         _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
         _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
         _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
         _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
+        */
+
         //確認用
         for (int i = 0; i < 5; i++)
         {
