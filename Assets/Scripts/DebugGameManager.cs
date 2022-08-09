@@ -72,6 +72,7 @@ public class DebugGameManager : MonoBehaviour
                 MainGameAction();
                 break;
             case GameMode.Result:
+                ResultAction();
                 break;
             default:
                 break;
@@ -138,7 +139,6 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(false);
         MainGamePanel.SetActive(true);
         ResultPanel.SetActive(false);
-        MainGameManager.mainmode = MainGameManager.MainGameMode.LoadGame;
     }
 
     // ResultÇ…Ç»Ç¡ÇΩÇ∆Ç´ÇÃèàóù
@@ -149,9 +149,8 @@ public class DebugGameManager : MonoBehaviour
         MoviePanel.SetActive(false);
         RoomSelectPanel.SetActive(false);
         InRoomPanel.SetActive(false);
-        MainGamePanel.SetActive(true);
-        ResultPanel.SetActive(false);
-        MainGameManager.mainmode = MainGameManager.MainGameMode.LoadGame;
+        MainGamePanel.SetActive(false);
+        ResultPanel.SetActive(true);
     }
 
     private IEnumerator WaitMovie()
