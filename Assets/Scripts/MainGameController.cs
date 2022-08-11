@@ -188,7 +188,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         //カウントダウン表示
 
-        yield return new WaitForSeconds(11f);
+        //yield return new WaitForSeconds(11f);
+        yield return new WaitForSeconds(3f);
+
         if (PhotonNetwork.IsMasterClient)
         {
             _view.RPC(nameof(StartReportAnswer), RpcTarget.All);
