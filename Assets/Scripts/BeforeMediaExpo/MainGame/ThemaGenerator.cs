@@ -42,7 +42,7 @@ public class ThemaGenerator : MonoBehaviour
     //‚±‚±‚Å‚¨‘è‚Ì”š‚ğ¶¬‚·‚é
     public void ThemaGenerate()
     {
-        _themaNum = UnityEngine.Random.Range(1, 129);
+        _themaNum = UnityEngine.Random.Range(1, 128);
         Debug.Log("‚¨‘è‚Í" + (_themaNum + 1));
         Debug.Log("‚¨‘è‚Ìî•ñ‚Í" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
         _themaBytes = BitConverter.GetBytes(_themaNum);

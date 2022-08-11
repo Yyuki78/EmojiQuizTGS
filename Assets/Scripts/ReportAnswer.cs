@@ -11,7 +11,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
     
     [SerializeField] Image CorrectImage;
 
-    [SerializeField] Image[] IconImage = new Image[4];//Icon画像を表示させるImageオブジ
+    [SerializeField] Image[] IconImage = new Image[4];//Icon画像を表示させるImageオブジェクト
 
     [SerializeField] Image[] AnswerImage = new Image[4];//Emoji画像を表示させるImageオブジェクト
 
@@ -146,7 +146,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             //出題者の正解不正解
             if (player == Qplayer)
             {
-                if (i >= 2)
+                if (i >= (players.Length - 1) / 2)
                 {
                     switch (k)
                     {
