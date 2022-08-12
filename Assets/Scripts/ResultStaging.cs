@@ -37,13 +37,16 @@ public class ResultStaging : MonoBehaviour
                 for (int j = 0; j < 100; j++)
                 {
                     CorrectImage[i].fillAmount += 0.01f;
-                    yield return new WaitForSeconds(1f / 100);
+                    yield return new WaitForSeconds(0.01f);
                 }
                 xPos += 150;
             }
             else
             {
-                yield return new WaitForSeconds(1f);
+                for (int j = 0; j < 100; j++)
+                {
+                    yield return new WaitForSeconds(0.01f);
+                }
             }
             yield return new WaitForSeconds(0.5f);
         }

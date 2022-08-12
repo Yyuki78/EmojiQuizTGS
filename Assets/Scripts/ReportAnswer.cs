@@ -11,6 +11,8 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
     
     [SerializeField] Image CorrectImage;
 
+    [SerializeField] Image[] BGImage = new Image[4];//背景画像
+
     [SerializeField] Image[] IconImage = new Image[4];//Icon画像を表示させるImageオブジェクト
 
     [SerializeField] Image[] AnswerImage = new Image[4];//Emoji画像を表示させるImageオブジェクト
@@ -35,6 +37,8 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         //各種リセット
         for (int j = 0; j < 4; j++)
         {
+            BGImage[j].gameObject.SetActive(false);
+
             IconImage[j].sprite = null;
             IconImage[j].gameObject.SetActive(false);
 
@@ -46,6 +50,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         }
         CorrectImage.sprite = null;
         CorrectImage.gameObject.SetActive(false);
+        PhotonNetwork.LocalPlayer.SetChoiceNum(129);
     }
 
     public void ShareAnswer(int ParticipantNum, int QuesitionNum, Player player)
@@ -87,6 +92,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
 
         for (int j = 0; j < players.Length-1; j++)
         {
+            BGImage[j].gameObject.SetActive(true);
             IconImage[j].gameObject.SetActive(true);
         }
 
@@ -146,7 +152,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             //出題者の正解不正解
             if (player == Qplayer)
             {
-                if (i >= (players.Length - 1) / 2)
+                if (i >= (players.Length - 1) / 2f)
                 {
                     switch (k)
                     {
@@ -244,7 +250,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             IconImage[j].gameObject.SetActive(false);
             yield return new WaitForSeconds(0.1f);
 
-            AnswerImage[j].sprite = null;
+            AnswerImage[j].sprite = Resources.Load<Sprite>("Image/129");
             AnswerImage[j].gameObject.SetActive(false);
             yield return new WaitForSeconds(0.1f);
 
@@ -254,6 +260,11 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         }
         CorrectImage.sprite = null;
         CorrectImage.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
+        //選択した数字をリセット
+        PhotonNetwork.LocalPlayer.SetChoiceNum(129);
 
         yield break;
     }

@@ -19,7 +19,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     public int ParticipantsNum = 0;//参加人数
 
-    private int QuesitionNum = 0;//問題数
+    public int QuesitionNum = 0;//問題数
 
     private bool Questioner = false;
     private bool Answerer = false;
@@ -188,8 +188,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         //カウントダウン表示
 
-        //yield return new WaitForSeconds(11f);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(13f);
+        //yield return new WaitForSeconds(3f);
 
         if (PhotonNetwork.IsMasterClient)
         {

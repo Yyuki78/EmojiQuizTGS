@@ -14,9 +14,6 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     // 公開・非公開
     [SerializeField] private bool isVisible = true;
 
-    // 入室の可否
-    [SerializeField] private bool isOpen = true;
-
     // 部屋名
     [SerializeField] private string roomName1 = "Room1";
     [SerializeField] private string roomName2 = "Room2";
@@ -74,9 +71,6 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
 
             // 公開
             IsVisible = isVisible,
-
-            // 入室可
-            IsOpen = isOpen
         };
 
         // 入室 (存在しなければ部屋を作成して入室する)
@@ -98,9 +92,6 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
 
             // 公開
             IsVisible = isVisible,
-
-            // 入室可
-            IsOpen = isOpen
         };
 
         // 入室 (存在しなければ部屋を作成して入室する)
