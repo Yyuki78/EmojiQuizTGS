@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class ResultController : MonoBehaviour
 {
@@ -69,9 +70,35 @@ public class ResultController : MonoBehaviour
             StartCoroutine(_staging[4].Staging(ReportAnswer.answer5, 5));
         }
 
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(15f);
+
+        //カウントダウン
+        yield return new WaitForSeconds(5f);
+
 
         //部屋から退出し、シーンをリロードする
         Debug.Log("タイトルに戻ります");
+
+        //暗転などの演出あってもいい
+
+        //準備完了をリセット
+        PhotonNetwork.LocalPlayer.SetReady(false);
+        yield return new WaitForSeconds(0.01f);
+
+        //アイコンをリセット
+        PhotonNetwork.LocalPlayer.SetScore(0);
+        yield return new WaitForSeconds(0.01f);
+
+        //選択した数字をリセット
+        PhotonNetwork.LocalPlayer.SetChoiceNum(129);
+        yield return new WaitForSeconds(0.01f);
+
+        // ルームから退出する
+        PhotonNetwork.LeaveRoom();
+
+        yield return new WaitForSeconds(0.01f);
+        PhotonNetwork.Disconnect();
+        yield return new WaitForSeconds(0.01f);
+        SceneManager.LoadScene("MainScene");
     }
 }

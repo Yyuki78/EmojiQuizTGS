@@ -41,6 +41,7 @@ public class InRoom : MonoBehaviourPunCallbacks
 
             //全員が準備完了なら
             _view.RPC(nameof(StartMainGame), RpcTarget.All);
+            PhotonNetwork.CurrentRoom.IsOpen = false;
         }
 
         if (isStart && once)
@@ -64,6 +65,21 @@ public class InRoom : MonoBehaviourPunCallbacks
         Debug.Log("2");
         yield return new WaitForSeconds(1f);
         Debug.Log("1");
+
+        var players = PhotonNetwork.PlayerList;
+        yield return new WaitForSeconds(0.01f);
+
+        //それぞれの番号を設定
+        int i = 0;
+        foreach (var player in players)
+        {
+            if (PhotonNetwork.LocalPlayer == player)
+            {
+                PhotonNetwork.LocalPlayer.UpdatePlayerNum(i);
+            }
+            i++;
+        }
+
         yield return new WaitForSeconds(1f);
         Debug.Log("ゲームスタート！");
         DebugGameManager.Instance.SetCurrentState(DebugGameManager.GameMode.MainGame);
