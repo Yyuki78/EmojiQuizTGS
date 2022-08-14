@@ -219,13 +219,6 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     }
 
 
-    // 他のプレイヤーが退室した時
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        Debug.Log("OnPlayerLeftRoom");
-    }
-
-
     // マスタークライアントが変わった時
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
