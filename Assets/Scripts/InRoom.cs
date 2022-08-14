@@ -3,23 +3,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InRoom : MonoBehaviourPunCallbacks
 {
     private PhotonView _view;
 
+    //ゲーム開始判定用
     private bool isStart = false;
     private bool once = true;
+
+    //準備完了ボタンの点滅用
+    private bool isFlashing = false;
+    private bool plus = false;
+
+    // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
+    [SerializeField] private EventSystem eventSystem;
+
+    //GameObject型の変数を宣言　ボタンオブジェクトを入れる箱
+    private GameObject button_ob;
+
+    [SerializeField] Image myIconImage; //自分のアイコン画像
+    [SerializeField] GameObject noSelectPanel;//アイコン以外を選択できなくするパネル
+    [SerializeField] Image ReadyButtonImage;//準備完了ボタンの画像
+    [SerializeField] GameObject myCheckMarkImage;//自分の準備完了を示すチェックマーク
+
+    [SerializeField] GameObject[] otherInfo = new GameObject[4];//他の人がいるかどうか
+    [SerializeField] Image[] otherIconImages = new Image[4];//他の人のアイコン
+    [SerializeField] GameObject[] otherCheckImages = new GameObject[4];//他の人のチェックマーク
+
+    [SerializeField] GameObject[] alreadySelectIconImages = new GameObject[6];//既に選択されたアイコンを隠す用
 
     // Start is called before the first frame update
     void Start()
     {
         _view = GetComponent<PhotonView>();
+        noSelectPanel.SetActive(true);
+        myCheckMarkImage.SetActive(false);
+        for(int i = 0; i < 4; i++)
+        {
+            otherInfo[i].SetActive(false);
+            otherCheckImages[i].SetActive(false);
+        }
+        for(int i = 0; i < 6; i++)
+        {
+            alreadySelectIconImages[i].SetActive(false);
+        }
+
+        PhotonNetwork.LocalPlayer.SetScore(10);
+
+        //StartCoroutine(ShareIconInfo());
+        StartCoroutine(SharePlayerInfo());
     }
 
     // Update is called once per frame
     void Update()
     {
+        //準備完了ボタンの点滅
+        if (isFlashing)
+        {
+            if (ReadyButtonImage.color.a >= 1)
+            {
+                plus = false;
+            }
+            if (ReadyButtonImage.color.a <= 0.75f)
+            {
+                plus = true;
+            }
+            if (!plus)
+            {
+                ReadyButtonImage.color -= new Color(0, 0, 0, 0.00075f);
+            }
+            else
+            {
+                ReadyButtonImage.color += new Color(0, 0, 0, 0.00075f);
+            }
+        }
+
+
+        //ゲーム開始の判定
         if (PhotonNetwork.IsMasterClient)
         {
 
@@ -87,12 +150,22 @@ public class InRoom : MonoBehaviourPunCallbacks
     }
 
 
-    public void OnClickIcon(int IconNum)
+    public void OnClickIcon()
     {
         //準備完了ボタンを押せるようにする
+        noSelectPanel.SetActive(false);
 
         // アイコンを設定する
+        //押されたボタンのオブジェクトをイベントシステムのcurrentSelectedGameObject関数から取得　
+        button_ob = eventSystem.currentSelectedGameObject;
+        Debug.Log("選択されたのは" + button_ob.name);
+        int x = int.Parse(button_ob.name);
+        Debug.Log("画像番号は" + x);
+        PhotonNetwork.LocalPlayer.SetScore(x);
 
+        myIconImage.sprite = Resources.Load<Sprite>("IconImage/" + x);
+
+        isFlashing = true;
     }
 
     public void OnClickReadyButton()
@@ -103,6 +176,146 @@ public class InRoom : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.LocalPlayer.SetReady(true);
         }
-        // 準備完了ボタンを出す
+        // 準備完了マークを出す
+        isFlashing = false;
+        ReadyButtonImage.color = new Color(1, 1, 1, 1);
+
+        myCheckMarkImage.SetActive(true);
+    }
+
+    //既に選択されたアイコンを選択不可にする
+    private IEnumerator ShareIconInfo()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.01f);
+
+            var players = PhotonNetwork.PlayerList;
+
+            for (int i = 1; i < 7; i++)
+            {
+                foreach (var player in players)
+                {
+                    if (player.GetScore() == i)
+                    {
+                        alreadySelectIconImages[i].SetActive(true);
+                    }
+                    else
+                    {
+                        alreadySelectIconImages[i].SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    //自分以外の人のアイコン、チェックマークの共有
+    private IEnumerator SharePlayerInfo()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+
+            //他の全プレイヤー取得
+            Player[] otherPlayers = PhotonNetwork.PlayerListOthers;
+
+            for (int i = 0; i < otherPlayers.Length; i++)
+            {
+                otherInfo[i].SetActive(true);
+            }
+
+            switch (otherPlayers.Length)
+            {
+                case 0:
+                    Debug.Log("一人");
+                    break;
+                case 1:
+                    otherIconImages[0].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[0].GetScore());
+                    if (otherPlayers[0].GetReady())
+                    {
+                        otherCheckImages[0].SetActive(true);
+                    }
+                    otherInfo[1].SetActive(false);
+                    otherInfo[2].SetActive(false);
+                    otherInfo[3].SetActive(false);
+                    break;
+                case 2:
+                    otherIconImages[0].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[0].GetScore());
+                    otherIconImages[1].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[1].GetScore());
+                    if (otherPlayers[0].GetReady())
+                    {
+                        otherCheckImages[0].SetActive(true);
+                    }
+                    if (otherPlayers[1].GetReady())
+                    {
+                        otherCheckImages[1].SetActive(true);
+                    }
+                    otherInfo[2].SetActive(false);
+                    otherInfo[3].SetActive(false);
+                    break;
+                case 3:
+                    otherIconImages[0].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[0].GetScore());
+                    otherIconImages[1].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[1].GetScore());
+                    otherIconImages[2].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[2].GetScore());
+                    if (otherPlayers[0].GetReady())
+                    {
+                        otherCheckImages[0].SetActive(true);
+                    }
+                    if (otherPlayers[1].GetReady())
+                    {
+                        otherCheckImages[1].SetActive(true);
+                    }
+                    if (otherPlayers[2].GetReady())
+                    {
+                        otherCheckImages[2].SetActive(true);
+                    }
+                    otherInfo[3].SetActive(false);
+                    break;
+                case 4:
+                    otherIconImages[0].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[0].GetScore());
+                    otherIconImages[1].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[1].GetScore());
+                    otherIconImages[2].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[2].GetScore());
+                    otherIconImages[3].sprite = Resources.Load<Sprite>("IconImage/" + otherPlayers[3].GetScore());
+                    if (otherPlayers[0].GetReady())
+                    {
+                        otherCheckImages[0].SetActive(true);
+                    }
+                    if (otherPlayers[1].GetReady())
+                    {
+                        otherCheckImages[1].SetActive(true);
+                    }
+                    if (otherPlayers[2].GetReady())
+                    {
+                        otherCheckImages[2].SetActive(true);
+                    }
+                    if (otherPlayers[3].GetReady())
+                    {
+                        otherCheckImages[3].SetActive(true);
+                    }
+                    break;
+                default:
+                    Debug.Log("入っている人数がおかしいです");
+                    break;
+            }
+        }
+    }
+
+    // 他のプレイヤーが退室した時
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log("OnPlayerLeftRoom");
+        
+        var players = PhotonNetwork.PlayerList;
+        int i = 0;
+        foreach (var player in players)
+        {
+            if (otherPlayer == player)
+            {
+                otherInfo[i].SetActive(false);
+                otherIconImages[i].sprite = Resources.Load<Sprite>("IconImage/10");
+                otherCheckImages[i].SetActive(false);
+            }
+            i++;
+        }
     }
 }

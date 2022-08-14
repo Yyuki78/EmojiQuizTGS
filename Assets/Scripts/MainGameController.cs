@@ -128,6 +128,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             photonView.RPC(nameof(RpcSendMessage), RpcTarget.All, _themaGenerator._themaNum, _themaGenerator._choicesNum);
         }
+        yield return new WaitForSeconds(0.01f);
 
         //出題者・解答者を問題数から決定
         if (PhotonNetwork.LocalPlayer == Players[(QuesitionNum - 1) % ParticipantsNum])
@@ -249,6 +250,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
     //お題・選択肢の配布
     [PunRPC]
     private void RpcSendMessage(int thema, int[] choices)
+    {
+        distributionChoice(thema, choices);
+    }
+
+    private void distributionChoice(int thema, int[] choices)
     {
         StartCoroutine(Showchoice(thema, choices));
     }
