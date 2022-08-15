@@ -14,6 +14,10 @@ public class InRoom : MonoBehaviourPunCallbacks
     private bool isStart = false;
     private bool once = true;
 
+    //アイコン選択画面の点滅用
+    private bool isFlashingIcon = false;
+    private bool plus1 = false;
+
     //準備完了ボタンの点滅用
     private bool isFlashing = false;
     private bool plus = false;
@@ -26,6 +30,7 @@ public class InRoom : MonoBehaviourPunCallbacks
 
     [SerializeField] Image myIconImage; //自分のアイコン画像
     [SerializeField] GameObject noSelectPanel;//アイコン以外を選択できなくするパネル
+    [SerializeField] Image IconSelectImage;//アイコン選択画面の画像
     [SerializeField] Image ReadyButtonImage;//準備完了ボタンの画像
     [SerializeField] GameObject myCheckMarkImage;//自分の準備完了を示すチェックマーク
 
@@ -50,6 +55,7 @@ public class InRoom : MonoBehaviourPunCallbacks
         {
             alreadySelectIconImages[i].SetActive(false);
         }
+        isFlashingIcon = true;
 
         PhotonNetwork.LocalPlayer.SetScore(10);
 
@@ -60,6 +66,27 @@ public class InRoom : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        //アイコン選択パネルの点滅
+        if (isFlashingIcon)
+        {
+            if (IconSelectImage.color.a >= 0.9f)
+            {
+                plus1 = false;
+            }
+            if (IconSelectImage.color.a <= 0.5f)
+            {
+                plus1 = true;
+            }
+            if (!plus1)
+            {
+                IconSelectImage.color -= new Color(0, 0, 0, 0.0075f);
+            }
+            else
+            {
+                IconSelectImage.color += new Color(0, 0, 0, 0.0075f);
+            }
+        }
+
         //準備完了ボタンの点滅
         if (isFlashing)
         {
@@ -73,11 +100,11 @@ public class InRoom : MonoBehaviourPunCallbacks
             }
             if (!plus)
             {
-                ReadyButtonImage.color -= new Color(0, 0, 0, 0.00075f);
+                ReadyButtonImage.color -= new Color(0, 0, 0, 0.0075f);
             }
             else
             {
-                ReadyButtonImage.color += new Color(0, 0, 0, 0.00075f);
+                ReadyButtonImage.color += new Color(0, 0, 0, 0.0075f);
             }
         }
 
@@ -165,6 +192,8 @@ public class InRoom : MonoBehaviourPunCallbacks
 
         myIconImage.sprite = Resources.Load<Sprite>("IconImage/" + x);
 
+        IconSelectImage.color = new Color(1, 1, 1, 0.8f);
+        isFlashingIcon = false;
         isFlashing = true;
     }
 
