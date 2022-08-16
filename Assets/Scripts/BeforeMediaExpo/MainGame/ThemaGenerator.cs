@@ -19,15 +19,17 @@ public class ThemaGenerator : MonoBehaviour
     private EmojiInformation emojiInfo;//CSV‚ğ“Ç‚İ‚ŞEmojiInformationƒNƒ‰ƒX‚ğˆµ‚¤‚½‚ß‚ÉéŒ¾
 
     public int _themaNum;//‚¨‘è‚Ì”Ô†
-    public byte[] _themaBytes;//‚¨‘è‚Ì”Ô†‚ÌbyteŒ^
+    //public byte[] _themaBytes;//‚¨‘è‚Ì”Ô†‚ÌbyteŒ^
 
     private int _ranChoice;
     public int[] _choicesNum;//‘I‘ğˆ‚Ì”Ô†
+    /*
     public byte[] _choicesBytes1;//‘I‘ğˆ1‚ÌbyteŒ^
     public byte[] _choicesBytes2;//‘I‘ğˆ2‚ÌbyteŒ^
     public byte[] _choicesBytes3;//‘I‘ğˆ3‚ÌbyteŒ^
     public byte[] _choicesBytes4;//‘I‘ğˆ4‚ÌbyteŒ^
     public byte[] _choicesBytes5;//‘I‘ğˆ5‚ÌbyteŒ^
+    */
 
     //“š‚¦‚Ì‘I‘ğˆ”Ô†
     public int CorrectPos;
@@ -45,11 +47,12 @@ public class ThemaGenerator : MonoBehaviour
         _themaNum = UnityEngine.Random.Range(1, 128);
         Debug.Log("‚¨‘è‚Í" + (_themaNum + 1));
         Debug.Log("‚¨‘è‚Ìî•ñ‚Í" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
+        /*
         _themaBytes = BitConverter.GetBytes(_themaNum);
         foreach (byte b in _themaBytes)
         {
             Debug.Log(string.Format("{0,3:X2}", b));
-        }
+        }*/
         //EmojiImage.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_themaNum]);
     }
 
