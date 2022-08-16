@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -19,7 +20,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     public int ParticipantsNum = 0;//参加人数
 
-    public int QuesitionNum = 0;//問題数
+    public int QuesitionNum = 1;//問題数
 
     private bool Questioner = false;
     private bool Answerer = false;
@@ -34,16 +35,21 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject ReportAnswerPanel;
 
+    [SerializeField] Image myIconImage;//左下に表示され続ける自分のアイコン
+
 
     private bool once = true;
+    private bool isSendQuestion = false;
 
     private PhotonView _view;
 
     private ReportAnswer _answer;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        QuesitionNum = 1;
+
         _view = GetComponent<PhotonView>();
 
         _themaGenerator = GetComponent<ThemaGenerator>();
@@ -62,6 +68,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             _view.RPC(nameof(StartInformRole), RpcTarget.All);
         }*/
+
+        myIconImage.sprite = Resources.Load<Sprite>("IconImage/" + PhotonNetwork.LocalPlayer.GetScore());
     }
 
     // Update is called once per frame
@@ -69,7 +77,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
     {
         //MainGameでないならReturn
         if (DebugGameManager.Instance.GetCurrentState() != DebugGameManager.GameMode.MainGame) return;
-
+        if (isSendQuestion)
+        {
+            _view.RPC(nameof(RpcSendMessage), RpcTarget.All, _themaGenerator._themaNum, _themaGenerator._choicesNum);
+            isSendQuestion = false;
+        }
 
     }
 
@@ -108,26 +120,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
         AnswererText.SetActive(false);
         QuestionerPanel.SetActive(false);
         AnswererPanel.SetActive(false);
-        PhotonNetwork.LocalPlayer.SetChoiceNum(-1);
+        yield return new WaitForSeconds(0.01f);
+        //選択した数字をリセット
+        PhotonNetwork.LocalPlayer.SetChoiceNum(129);
         ReportAnswerPanel.SetActive(false);
 
-        yield return new WaitForSeconds(0.01f);
-
-        //問題数の増加
-        QuesitionNum++;
-        yield return new WaitForSeconds(0.01f);
-
-        //マスターは問題の設定及び配布
-        if (PhotonNetwork.IsMasterClient)
-        {
-            _themaGenerator.ThemaGenerate();
-            _themaGenerator.ChoicesGenerate();
-        }
-        yield return new WaitForSeconds(0.01f);
-        if (PhotonNetwork.IsMasterClient)
-        {
-            photonView.RPC(nameof(RpcSendMessage), RpcTarget.All, _themaGenerator._themaNum, _themaGenerator._choicesNum);
-        }
         yield return new WaitForSeconds(0.01f);
 
         //出題者・解答者を問題数から決定
@@ -141,7 +138,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
             //解答者
             Answerer = true;
         }
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
 
         //役割に応じた画面表示(アイコンの位置の設定)
         if (Questioner)
@@ -152,17 +149,28 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             AnswererText.SetActive(true);
         }
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
+
+        //マスターは問題の設定
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _themaGenerator.ThemaGenerate();
+            yield return new WaitForSeconds(0.01f);
+            StartCoroutine(_themaGenerator.ChoicesGenerate());
+        }
+        
+        yield return new WaitForSeconds(0.1f);
 
         //カウントダウン表示
         yield return new WaitForSeconds(1f);
 
-        //ラグで送信できない時が有るので念のためにもう一度解答と選択肢を送信
+        yield return new WaitForSeconds(1f);
+
+        //マスターは問題を配布
         if (PhotonNetwork.IsMasterClient)
         {
-            photonView.RPC(nameof(RpcSendMessage), RpcTarget.All, _themaGenerator._themaNum, _themaGenerator._choicesNum);
+            isSendQuestion = true;
         }
-        yield return new WaitForSeconds(1f);
 
         yield return new WaitForSeconds(1f);
 
@@ -208,14 +216,17 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //答えの表示
         _answer.ShareAnswer(ParticipantsNum, QuesitionNum, Players[(QuesitionNum - 1) % ParticipantsNum]);
 
-        yield return new WaitForSeconds(7.5f);
+        yield return new WaitForSeconds(2.5f);
+        //問題数の増加
+        QuesitionNum++;
+        yield return new WaitForSeconds(5.5f);
 
         //マスターは問題数が5ならリザルトへ行かせる
         if (PhotonNetwork.IsMasterClient && QuesitionNum == 5)
         {
             _view.RPC(nameof(StartResult), RpcTarget.All);
         }
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
 
         //次の問題へ
         if (PhotonNetwork.IsMasterClient)
@@ -251,7 +262,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcSendMessage(int thema, int[] choices)
     {
-        distributionChoice(thema, choices);
+        Debug.Log("お題と選択肢を受け取ってそれぞれ表示！");
+        _themaGenerator.Showchoices(thema, choices);
     }
 
     private void distributionChoice(int thema, int[] choices)

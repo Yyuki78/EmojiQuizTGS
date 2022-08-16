@@ -8,10 +8,10 @@ public class EmojiInformation//MonoBehaviourは継承しない
     static TextAsset csvFile;//CSVファイルを変数として扱うために宣言
     static List<string[]> emojiData = new List<string[]>();//CSVファイルの中身を入れる配列を定義。全てのデータが文字列形式で格納される
     //変数名[i]が絵文字IDがiの情報をそれぞれ示す
-    public int[] emojiID = new int[128];//絵文字のID
-    public int[] emojiAttribute1 = new int[128];//絵文字の属性1。感情(喜怒哀楽＋無を1～5で表す)
-    public int[] emojiAttribute2 = new int[128];//絵文字の属性2。1つの分類ごとに3～5個で34個に分ける
-    public string[] imageAddress = new string[128];//絵文字の画像イメージのアドレス
+    public int[] emojiID = new int[129];//絵文字のID
+    public int[] emojiAttribute1 = new int[129];//絵文字の属性1。感情(喜怒哀楽＋無を1～5で表す)
+    public int[] emojiAttribute2 = new int[129];//絵文字の属性2。1つの分類ごとに3～5個で34個に分ける
+    public string[] imageAddress = new string[129];//絵文字の画像イメージのアドレス
     //指定したアドレスに保管されているCSVファイルから情報を読み取り、emojiDataに情報を文字列として格納するメソッド。
     //emojiData[i][j]はCSVファイルのi行、j列目のデータを表す。但し先頭行（タイトル部分）は0行目と考えるものとする。
     static void CsvReader()

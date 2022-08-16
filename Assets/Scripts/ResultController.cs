@@ -47,7 +47,7 @@ public class ResultController : MonoBehaviour
         foreach (var player in players)
         {
             yield return new WaitForSeconds(0.01f);
-            IconImage[i].sprite = Resources.Load<Sprite>("Image/" + player.GetScore());
+            IconImage[i].sprite = Resources.Load<Sprite>("IconImage/" + player.GetScore());
             IconImage[i].gameObject.SetActive(true);
             i++;
         }

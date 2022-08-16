@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class ThemaGenerator : MonoBehaviour
 {
+    //旧絵文字と新絵文字のどちらを使用するか
+    [SerializeField] int EmojiMode = 1;
+
     //お題の表示用
     [SerializeField] Image EmojiImage = null;
 
@@ -17,6 +20,7 @@ public class ThemaGenerator : MonoBehaviour
     [SerializeField] Image EmojiImage5 = null;
 
     private EmojiInformation emojiInfo;//CSVを読み込むEmojiInformationクラスを扱うために宣言
+    private newEmojiInformation newEmojiInfo;//CSVを読み込むnewEmojiInformationクラスを扱うために宣言
 
     public int _themaNum;//お題の番号
     //public byte[] _themaBytes;//お題の番号のbyte型
@@ -39,14 +43,31 @@ public class ThemaGenerator : MonoBehaviour
     {
         emojiInfo = new EmojiInformation();//EmojiInformationクラスの実体としてemojiInfo生成
         emojiInfo.Init();//CSVデータの読み込みと変数への格納処理
+
+        newEmojiInfo = new newEmojiInformation();
+        newEmojiInfo.Init();
     }
 
     //ここでお題の数字を生成する
     public void ThemaGenerate()
     {
-        _themaNum = UnityEngine.Random.Range(1, 128);
-        Debug.Log("お題は" + (_themaNum + 1));
-        Debug.Log("お題の情報は" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
+        switch (EmojiMode)
+        {
+            case 1:
+                _themaNum = UnityEngine.Random.Range(1, 128);
+                Debug.Log("お題は" + (_themaNum + 1));
+                Debug.Log("お題の情報は" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
+                break;
+            case 2:
+                _themaNum = UnityEngine.Random.Range(1, 101);
+                Debug.Log("お題は" + (_themaNum + 1));
+                Debug.Log("お題の情報は" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
+                break;
+            default:
+                Debug.Log("設定ミス");
+                break;
+        }
+        
         /*
         _themaBytes = BitConverter.GetBytes(_themaNum);
         foreach (byte b in _themaBytes)
@@ -57,144 +78,322 @@ public class ThemaGenerator : MonoBehaviour
     }
 
     //ここで選択肢の数字を生成する
-    public void ChoicesGenerate()
+    public IEnumerator ChoicesGenerate()
     {
-        _choicesNum = new int[5];
-        _choicesNum[0] = _themaNum;
+        switch (EmojiMode)
+        {
+            case 1:
+                _choicesNum = new int[5];
+                _choicesNum[0] = _themaNum;
 
-        //null回避用のプログラム
-        for(int i = 1; i < 5; i++)
-        {
-            _choicesNum[i] = _themaNum;
-        }
-        /*
-        //取り合えずの選択肢抽出用プログラム
-        //数字が被らないようにしているだけでお題との相関はない
-        for(int i = 1; i < 5; i++)
-        {
-            do
-            {
-                _ranChoice = UnityEngine.Random.Range(1, 129);
-            } while (_ranChoice == _themaNum||_ranChoice==_choicesNum[1] || _ranChoice == _choicesNum[2] || _ranChoice == _choicesNum[3] || _ranChoice == _choicesNum[4]);
-            _choicesNum[i] = _ranChoice;
-        }
-        //配列の並びをシャッフルする
-        for (int i = 0; i < 5; i++)
-        {
-            int temp = _choicesNum[i];
-            int randomIndex = UnityEngine.Random.Range(0, 5);
-            _choicesNum[i] = _choicesNum[randomIndex];
-            _choicesNum[randomIndex] = temp;
-        }
-        //選択肢をByte型に変換
-        _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
-        _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
-        _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
-        _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
-        _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
-        //確認用
-        for (int i = 0; i < 5; i++)
-        {
-            Debug.Log(i + "番目は" + _choicesNum[i]);
-        }*/
-
-        //お題に似ている選択肢の選出
-        do
-        {
-            int _attribute2 = emojiInfo.emojiAttribute2[_themaNum];
-            int[] match = new int[6];
-            int n = 0;
-
-            for (int i = 0; i < emojiInfo.emojiID.Length; i++)
-            {
-                if (_attribute2 == emojiInfo.emojiAttribute2[i])
+                //null回避用のプログラム
+                for (int i = 1; i < 5; i++)
                 {
-                    match[n] = i;
-                    n++;
+                    _choicesNum[i] = _themaNum;
                 }
-            }
-            int rnd = UnityEngine.Random.Range(0, n);
-            _choicesNum[1] = emojiInfo.emojiID[match[rnd]];
-        } while (_choicesNum[0] == _choicesNum[1]);
 
-        //お題と感情が似ている選択肢の選出1
-        do
-        {
-            int _attribute1 = emojiInfo.emojiAttribute1[_themaNum];
-            int[] match = new int[100];
-            int n = 0;
+                yield return new WaitForSeconds(0.01f);
 
-            for (int i = 0; i < emojiInfo.emojiID.Length; i++)
-            {
-                if (_attribute1 == emojiInfo.emojiAttribute1[i])
+                /*
+                //取り合えずの選択肢抽出用プログラム
+                //数字が被らないようにしているだけでお題との相関はない
+                for(int i = 1; i < 5; i++)
                 {
-                    match[n] = i;
-                    n++;
+                    do
+                    {
+                        _ranChoice = UnityEngine.Random.Range(1, 129);
+                    } while (_ranChoice == _themaNum||_ranChoice==_choicesNum[1] || _ranChoice == _choicesNum[2] || _ranChoice == _choicesNum[3] || _ranChoice == _choicesNum[4]);
+                    _choicesNum[i] = _ranChoice;
                 }
-            }
-            int rnd = UnityEngine.Random.Range(0, n);
-            _choicesNum[2] = emojiInfo.emojiID[match[rnd]];
-        } while (_choicesNum[0] == _choicesNum[2] || _choicesNum[1] == _choicesNum[2]);
-
-        //お題と感情が似ている選択肢の選出2
-        do
-        {
-            int _attribute1 = emojiInfo.emojiAttribute1[_themaNum];
-            int[] match = new int[100];
-            int n = 0;
-
-            for (int i = 0; i < emojiInfo.emojiID.Length; i++)
-            {
-                if (_attribute1 == emojiInfo.emojiAttribute1[i])
+                //配列の並びをシャッフルする
+                for (int i = 0; i < 5; i++)
                 {
-                    match[n] = i;
-                    n++;
+                    int temp = _choicesNum[i];
+                    int randomIndex = UnityEngine.Random.Range(0, 5);
+                    _choicesNum[i] = _choicesNum[randomIndex];
+                    _choicesNum[randomIndex] = temp;
                 }
-            }
-            int rnd = UnityEngine.Random.Range(0, n);
-            _choicesNum[3] = emojiInfo.emojiID[match[rnd]];
-        } while (_choicesNum[0] == _choicesNum[3] || _choicesNum[1] == _choicesNum[3] || _choicesNum[2] == _choicesNum[3]);
+                //選択肢をByte型に変換
+                _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
+                _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
+                _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
+                _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
+                _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
+                //確認用
+                for (int i = 0; i < 5; i++)
+                {
+                    Debug.Log(i + "番目は" + _choicesNum[i]);
+                }*/
 
-        //完全にランダムな選択肢の選出
-        do
-        {
-            _choicesNum[4] = UnityEngine.Random.Range(1, 129);
-        } while (_choicesNum[0] == _choicesNum[4] || _choicesNum[1] == _choicesNum[4] || _choicesNum[2] == _choicesNum[4] || _choicesNum[3] == _choicesNum[4]);
+                //お題に似ている選択肢の選出
+                do
+                {
+                    int _attribute2 = emojiInfo.emojiAttribute2[_themaNum];
+                    int[] match = new int[6];
+                    int n = 0;
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    for (int i = 0; i < emojiInfo.emojiID.Length; i++)
+                    {
+                        if (_attribute2 == emojiInfo.emojiAttribute2[i])
+                        {
+                            match[n] = i;
+                            n++;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    int rnd = UnityEngine.Random.Range(0, n);
+                    _choicesNum[1] = emojiInfo.emojiID[match[rnd]];
+                } while (_choicesNum[0] == _choicesNum[1]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //お題と感情が似ている選択肢の選出1
+                do
+                {
+                    int _attribute1 = emojiInfo.emojiAttribute1[_themaNum];
+                    int[] match = new int[100];
+                    int n = 0;
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    for (int i = 0; i < emojiInfo.emojiID.Length; i++)
+                    {
+                        if (_attribute1 == emojiInfo.emojiAttribute1[i])
+                        {
+                            match[n] = i;
+                            n++;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    int rnd = UnityEngine.Random.Range(0, n);
+                    _choicesNum[2] = emojiInfo.emojiID[match[rnd]];
+                } while (_choicesNum[0] == _choicesNum[2] || _choicesNum[1] == _choicesNum[2]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //お題と感情が似ている選択肢の選出2
+                do
+                {
+                    int _attribute1 = emojiInfo.emojiAttribute1[_themaNum];
+                    int[] match = new int[100];
+                    int n = 0;
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    for (int i = 0; i < emojiInfo.emojiID.Length; i++)
+                    {
+                        if (_attribute1 == emojiInfo.emojiAttribute1[i])
+                        {
+                            match[n] = i;
+                            n++;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    int rnd = UnityEngine.Random.Range(0, n);
+                    _choicesNum[3] = emojiInfo.emojiID[match[rnd]];
+                } while (_choicesNum[0] == _choicesNum[3] || _choicesNum[1] == _choicesNum[3] || _choicesNum[2] == _choicesNum[3]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //完全にランダムな選択肢の選出
+                do
+                {
+                    _choicesNum[4] = UnityEngine.Random.Range(1, 129);
+                    yield return new WaitForSeconds(0.01f);
+                } while (_choicesNum[0] == _choicesNum[4] || _choicesNum[1] == _choicesNum[4] || _choicesNum[2] == _choicesNum[4] || _choicesNum[3] == _choicesNum[4]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //配列の並びをシャッフルする
+                for (int i = 0; i < 5; i++)
+                {
+                    int temp = _choicesNum[i];
+                    int randomIndex = UnityEngine.Random.Range(0, 5);
+                    _choicesNum[i] = _choicesNum[randomIndex];
+                    _choicesNum[randomIndex] = temp;
+
+                    yield return new WaitForSeconds(0.01f);
+                }
+
+                /*
+                //選択肢をByte型に変換
+                _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
+                _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
+                _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
+                _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
+                _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
+                */
+
+                //確認用
+                for (int i = 0; i < 5; i++)
+                {
+                    Debug.Log((i + 1) + "番目は" + _choicesNum[i]);
+                    if (_choicesNum[i] == _themaNum)
+                    {
+                        CorrectPos = i + 1;
+                    }
+                }
+                /*
+                EmojiImage1.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[0]]);
+                EmojiImage2.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[1]]);
+                EmojiImage3.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[2]]);
+                EmojiImage4.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[3]]);
+                EmojiImage5.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[4]]);
+                */
+
+                yield break;
+
+            case 2:
+                _choicesNum = new int[5];
+                _choicesNum[0] = _themaNum;
+
+                //null回避用のプログラム
+                for (int i = 1; i < 5; i++)
+                {
+                    _choicesNum[i] = _themaNum;
+                }
+
+                yield return new WaitForSeconds(0.01f);
+
+                //お題に酷似している選択肢の選出
+                do
+                {
+                    int _attribute3 = newEmojiInfo.emojiAttribute3[_themaNum];
+                    int[] match = new int[6];
+                    int n = 0;
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    for (int i = 0; i < newEmojiInfo.emojiID.Length; i++)
+                    {
+                        if (_attribute3 == newEmojiInfo.emojiAttribute3[i])
+                        {
+                            match[n] = i;
+                            n++;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    int rnd = UnityEngine.Random.Range(0, n);
+                    _choicesNum[1] = newEmojiInfo.emojiID[match[rnd]];
+                } while (_choicesNum[0] == _choicesNum[1]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //お題と表情が似ている選択肢の選出
+                do
+                {
+                    int _attribute2 = newEmojiInfo.emojiAttribute2[_themaNum];
+                    int[] match = new int[100];
+                    int n = 0;
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    for (int i = 0; i < newEmojiInfo.emojiID.Length; i++)
+                    {
+                        if (_attribute2 == newEmojiInfo.emojiAttribute2[i])
+                        {
+                            match[n] = i;
+                            n++;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    int rnd = UnityEngine.Random.Range(0, n);
+                    _choicesNum[2] = newEmojiInfo.emojiID[match[rnd]];
+                } while (_choicesNum[0] == _choicesNum[2] || _choicesNum[1] == _choicesNum[2]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //お題と感情が似ている選択肢の選出
+                do
+                {
+                    int _attribute1 = newEmojiInfo.emojiAttribute1[_themaNum];
+                    int[] match = new int[100];
+                    int n = 0;
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    for (int i = 0; i < newEmojiInfo.emojiID.Length; i++)
+                    {
+                        if (_attribute1 == newEmojiInfo.emojiAttribute1[i])
+                        {
+                            match[n] = i;
+                            n++;
+                        }
+                    }
+
+                    yield return new WaitForSeconds(0.01f);
+
+                    int rnd = UnityEngine.Random.Range(0, n);
+                    _choicesNum[3] = newEmojiInfo.emojiID[match[rnd]];
+                } while (_choicesNum[0] == _choicesNum[3] || _choicesNum[1] == _choicesNum[3] || _choicesNum[2] == _choicesNum[3]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //完全にランダムな選択肢の選出
+                do
+                {
+                    _choicesNum[4] = UnityEngine.Random.Range(1, 101);
+                    yield return new WaitForSeconds(0.01f);
+                } while (_choicesNum[0] == _choicesNum[4] || _choicesNum[1] == _choicesNum[4] || _choicesNum[2] == _choicesNum[4] || _choicesNum[3] == _choicesNum[4]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //配列の並びをシャッフルする
+                for (int i = 0; i < 5; i++)
+                {
+                    int temp = _choicesNum[i];
+                    int randomIndex = UnityEngine.Random.Range(0, 5);
+                    _choicesNum[i] = _choicesNum[randomIndex];
+                    _choicesNum[randomIndex] = temp;
+
+                    yield return new WaitForSeconds(0.01f);
+                }
+
+                /*
+                //選択肢をByte型に変換
+                _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
+                _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
+                _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
+                _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
+                _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
+                */
+
+                //確認用
+                for (int i = 0; i < 5; i++)
+                {
+                    Debug.Log((i + 1) + "番目は" + _choicesNum[i]);
+                    if (_choicesNum[i] == _themaNum)
+                    {
+                        CorrectPos = i + 1;
+                    }
+                }
+                /*
+                EmojiImage1.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[0]]);
+                EmojiImage2.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[1]]);
+                EmojiImage3.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[2]]);
+                EmojiImage4.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[3]]);
+                EmojiImage5.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[4]]);
+                */
+
+                yield break;
+            default:
+                Debug.Log("設定ミス");
+                break;
+        }
+
         
-        //配列の並びをシャッフルする
-        for (int i = 0; i < 5; i++)
-        {
-            int temp = _choicesNum[i];
-            int randomIndex = UnityEngine.Random.Range(0, 5);
-            _choicesNum[i] = _choicesNum[randomIndex];
-            _choicesNum[randomIndex] = temp;
-        }
-
-        /*
-        //選択肢をByte型に変換
-        _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
-        _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
-        _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
-        _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
-        _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
-        */
-
-        //確認用
-        for (int i = 0; i < 5; i++)
-        {
-            Debug.Log((i + 1) + "番目は" + _choicesNum[i]);
-            if (_choicesNum[i] == _themaNum)
-            {
-                CorrectPos = i + 1;
-            }
-        }
-        /*
-        EmojiImage1.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[0]]);
-        EmojiImage2.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[1]]);
-        EmojiImage3.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[2]]);
-        EmojiImage4.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[3]]);
-        EmojiImage5.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[4]]);
-        */
     }
 
     //数字を受け取って表示

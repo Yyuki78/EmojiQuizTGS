@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 9ef3600c-df7e-4027-912c-f146d8543c8a
+    AppIdRealtime: 32741945-bd66-4752-bee0-298946b45ed1
     AppIdFusion: 
     AppIdChat: 
     AppIdVoice: 
@@ -38,6 +38,7 @@ MonoBehaviour:
   - DestroyRpc
   - DestroySpaceship
   - Fire
+  - GoGame
   - OperateQuestion
   - RespawnSpaceship
   - RpcSendMessage
@@ -46,9 +47,8 @@ MonoBehaviour:
   - SendMyAnswer
   - SendOurAnswers
   - SendServerTime
-  - GoGame
-  - StartMainGame
   - StartInformRole
+  - StartMainGame
   - StartQuestionTime
   - StartReportAnswer
   - StartResult
