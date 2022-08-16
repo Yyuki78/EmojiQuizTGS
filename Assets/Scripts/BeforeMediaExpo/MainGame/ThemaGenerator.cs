@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ThemaGenerator : MonoBehaviour
 {
     //旧絵文字と新絵文字のどちらを使用するか
-    [SerializeField] int EmojiMode = 1;
+    [SerializeField] int EmojiMode = 2;
 
     //お題の表示用
     [SerializeField] Image EmojiImage = null;
@@ -41,11 +41,22 @@ public class ThemaGenerator : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        emojiInfo = new EmojiInformation();//EmojiInformationクラスの実体としてemojiInfo生成
-        emojiInfo.Init();//CSVデータの読み込みと変数への格納処理
-
-        newEmojiInfo = new newEmojiInformation();
-        newEmojiInfo.Init();
+        switch (EmojiMode)
+        {
+            case 1:
+                emojiInfo = new EmojiInformation();//EmojiInformationクラスの実体としてemojiInfo生成
+                emojiInfo.Init();//CSVデータの読み込みと変数への格納処理
+                Debug.Log("旧絵文字モードです");
+                break;
+            case 2:
+                newEmojiInfo = new newEmojiInformation();
+                newEmojiInfo.Init();
+                Debug.Log("新絵文字モードです");
+                break;
+            default:
+                Debug.Log("設定ミス");
+                break;
+        }
     }
 
     //ここでお題の数字を生成する
@@ -59,9 +70,9 @@ public class ThemaGenerator : MonoBehaviour
                 Debug.Log("お題の情報は" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
                 break;
             case 2:
-                _themaNum = UnityEngine.Random.Range(1, 101);
+                _themaNum = UnityEngine.Random.Range(1, 100);
                 Debug.Log("お題は" + (_themaNum + 1));
-                Debug.Log("お題の情報は" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
+                Debug.Log("お題の情報は" + newEmojiInfo.emojiAttribute1[_themaNum] + "," + newEmojiInfo.emojiAttribute2[_themaNum] + "," + newEmojiInfo.emojiAttribute3[_themaNum] + "," + newEmojiInfo.imageAddress[_themaNum]);
                 break;
             default:
                 Debug.Log("設定ミス");
@@ -148,6 +159,7 @@ public class ThemaGenerator : MonoBehaviour
                     int rnd = UnityEngine.Random.Range(0, n);
                     _choicesNum[1] = emojiInfo.emojiID[match[rnd]];
                 } while (_choicesNum[0] == _choicesNum[1]);
+                Debug.Log("選択肢1は" + _choicesNum[1]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -174,6 +186,7 @@ public class ThemaGenerator : MonoBehaviour
                     int rnd = UnityEngine.Random.Range(0, n);
                     _choicesNum[2] = emojiInfo.emojiID[match[rnd]];
                 } while (_choicesNum[0] == _choicesNum[2] || _choicesNum[1] == _choicesNum[2]);
+                Debug.Log("選択肢2は" + _choicesNum[2]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -200,6 +213,7 @@ public class ThemaGenerator : MonoBehaviour
                     int rnd = UnityEngine.Random.Range(0, n);
                     _choicesNum[3] = emojiInfo.emojiID[match[rnd]];
                 } while (_choicesNum[0] == _choicesNum[3] || _choicesNum[1] == _choicesNum[3] || _choicesNum[2] == _choicesNum[3]);
+                Debug.Log("選択肢3は" + _choicesNum[3]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -209,6 +223,7 @@ public class ThemaGenerator : MonoBehaviour
                     _choicesNum[4] = UnityEngine.Random.Range(1, 129);
                     yield return new WaitForSeconds(0.01f);
                 } while (_choicesNum[0] == _choicesNum[4] || _choicesNum[1] == _choicesNum[4] || _choicesNum[2] == _choicesNum[4] || _choicesNum[3] == _choicesNum[4]);
+                Debug.Log("選択肢4は" + _choicesNum[4]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -253,12 +268,12 @@ public class ThemaGenerator : MonoBehaviour
 
             case 2:
                 _choicesNum = new int[5];
-                _choicesNum[0] = _themaNum;
+                _choicesNum[0] = _themaNum + 1;
 
                 //null回避用のプログラム
                 for (int i = 1; i < 5; i++)
                 {
-                    _choicesNum[i] = _themaNum;
+                    _choicesNum[i] = _themaNum + 1;
                 }
 
                 yield return new WaitForSeconds(0.01f);
@@ -272,7 +287,7 @@ public class ThemaGenerator : MonoBehaviour
 
                     yield return new WaitForSeconds(0.01f);
 
-                    for (int i = 0; i < newEmojiInfo.emojiID.Length; i++)
+                    for (int i = 1; i < newEmojiInfo.emojiID.Length+1; i++)
                     {
                         if (_attribute3 == newEmojiInfo.emojiAttribute3[i])
                         {
@@ -286,6 +301,7 @@ public class ThemaGenerator : MonoBehaviour
                     int rnd = UnityEngine.Random.Range(0, n);
                     _choicesNum[1] = newEmojiInfo.emojiID[match[rnd]];
                 } while (_choicesNum[0] == _choicesNum[1]);
+                Debug.Log("選択肢1は" + _choicesNum[1]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -298,7 +314,7 @@ public class ThemaGenerator : MonoBehaviour
 
                     yield return new WaitForSeconds(0.01f);
 
-                    for (int i = 0; i < newEmojiInfo.emojiID.Length; i++)
+                    for (int i = 1; i < newEmojiInfo.emojiID.Length+1; i++)
                     {
                         if (_attribute2 == newEmojiInfo.emojiAttribute2[i])
                         {
@@ -312,6 +328,7 @@ public class ThemaGenerator : MonoBehaviour
                     int rnd = UnityEngine.Random.Range(0, n);
                     _choicesNum[2] = newEmojiInfo.emojiID[match[rnd]];
                 } while (_choicesNum[0] == _choicesNum[2] || _choicesNum[1] == _choicesNum[2]);
+                Debug.Log("選択肢2は" + _choicesNum[2]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -324,7 +341,7 @@ public class ThemaGenerator : MonoBehaviour
 
                     yield return new WaitForSeconds(0.01f);
 
-                    for (int i = 0; i < newEmojiInfo.emojiID.Length; i++)
+                    for (int i = 1; i < newEmojiInfo.emojiID.Length+1; i++)
                     {
                         if (_attribute1 == newEmojiInfo.emojiAttribute1[i])
                         {
@@ -338,6 +355,7 @@ public class ThemaGenerator : MonoBehaviour
                     int rnd = UnityEngine.Random.Range(0, n);
                     _choicesNum[3] = newEmojiInfo.emojiID[match[rnd]];
                 } while (_choicesNum[0] == _choicesNum[3] || _choicesNum[1] == _choicesNum[3] || _choicesNum[2] == _choicesNum[3]);
+                Debug.Log("選択肢3は" + _choicesNum[3]);
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -347,6 +365,11 @@ public class ThemaGenerator : MonoBehaviour
                     _choicesNum[4] = UnityEngine.Random.Range(1, 101);
                     yield return new WaitForSeconds(0.01f);
                 } while (_choicesNum[0] == _choicesNum[4] || _choicesNum[1] == _choicesNum[4] || _choicesNum[2] == _choicesNum[4] || _choicesNum[3] == _choicesNum[4]);
+
+                yield return new WaitForSeconds(0.01f);
+
+                //画像にするために1増やす
+                _themaNum += 1;
 
                 yield return new WaitForSeconds(0.01f);
 
@@ -361,15 +384,6 @@ public class ThemaGenerator : MonoBehaviour
                     yield return new WaitForSeconds(0.01f);
                 }
 
-                /*
-                //選択肢をByte型に変換
-                _choicesBytes1 = BitConverter.GetBytes(_choicesNum[0]);
-                _choicesBytes2 = BitConverter.GetBytes(_choicesNum[1]);
-                _choicesBytes3 = BitConverter.GetBytes(_choicesNum[2]);
-                _choicesBytes4 = BitConverter.GetBytes(_choicesNum[3]);
-                _choicesBytes5 = BitConverter.GetBytes(_choicesNum[4]);
-                */
-
                 //確認用
                 for (int i = 0; i < 5; i++)
                 {
@@ -379,13 +393,6 @@ public class ThemaGenerator : MonoBehaviour
                         CorrectPos = i + 1;
                     }
                 }
-                /*
-                EmojiImage1.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[0]]);
-                EmojiImage2.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[1]]);
-                EmojiImage3.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[2]]);
-                EmojiImage4.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[3]]);
-                EmojiImage5.sprite = Resources.Load<Sprite>(emojiInfo.imageAddress[_choicesNum[4]]);
-                */
 
                 yield break;
             default:
@@ -401,7 +408,7 @@ public class ThemaGenerator : MonoBehaviour
     {
         _themaNum = thema;
         _choicesNum = choices;
-        EmojiImage.sprite = Resources.Load<Sprite>("Image/" + thema);
+        EmojiImage.sprite = Resources.Load<Sprite>("Image/" + (thema));
         EmojiImage1.sprite = Resources.Load<Sprite>("Image/" + choices[0]);
         EmojiImage2.sprite = Resources.Load<Sprite>("Image/" + choices[1]);
         EmojiImage3.sprite = Resources.Load<Sprite>("Image/" + choices[2]);
