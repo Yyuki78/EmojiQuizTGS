@@ -164,6 +164,12 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //カウントダウン表示
         yield return new WaitForSeconds(1f);
 
+        if (once)
+        {
+            once = false;
+            _answer.SetPosition(ParticipantsNum);
+        }
+
         yield return new WaitForSeconds(1f);
 
         //マスターは問題を配布

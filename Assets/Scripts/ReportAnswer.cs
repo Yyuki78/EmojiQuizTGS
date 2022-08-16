@@ -22,6 +22,9 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
 
     [SerializeField] Image[] inCorrect = new Image[4];
 
+    //選択肢に関するものを纏めたオブジェクト
+    [SerializeField] GameObject[] SelectObjects = new GameObject[4];
+
     //全体の正解不正解を持つbool[正解か不正解か]
     public static bool[] answer1 = new bool[5];
     public static bool[] answer2 = new bool[5];
@@ -57,6 +60,9 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(0.1f);
             Correct[j].gameObject.SetActive(false);
             inCorrect[j].gameObject.SetActive(false);
+
+            yield return new WaitForSeconds(0.1f);
+            SelectObjects[j].SetActive(true);
         }
         yield return new WaitForSeconds(0.1f);
         CorrectImage.sprite = null;
@@ -64,6 +70,35 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.1f);
     }
 
+    public void SetPosition(int ParticipantNum)
+    {
+        switch (ParticipantNum)
+        {
+            case 2:
+                SelectObjects[0].transform.localPosition = new Vector3(335, 0, 0);
+                break;
+            case 3:
+                SelectObjects[0].transform.localPosition = new Vector3(110, 0, 0);
+                SelectObjects[1].transform.localPosition = new Vector3(330, 0, 0);
+                break;
+            case 4:
+                SelectObjects[0].transform.localPosition = new Vector3(50, 0, 0);
+                SelectObjects[1].transform.localPosition = new Vector3(125, 0, 0);
+                SelectObjects[2].transform.localPosition = new Vector3(200, 0, 0);
+                break;
+            case 5:
+                SelectObjects[0].transform.localPosition = new Vector3(0, 0, 0);
+                SelectObjects[1].transform.localPosition = new Vector3(0, 0, 0);
+                SelectObjects[2].transform.localPosition = new Vector3(0, 0, 0);
+                SelectObjects[3].transform.localPosition = new Vector3(0, 0, 0);
+                break;
+            default:
+                Debug.Log("参加者の数が異常です");
+                break;
+        }
+    }
+
+    //答え合わせ
     public void ShareAnswer(int ParticipantNum, int QuesitionNum, Player player)
     {
         switch (ParticipantNum)

@@ -12,6 +12,8 @@ public class ResultController : MonoBehaviour
 
     private ResultStaging[] _staging = new ResultStaging[5];//バー演出
 
+    [SerializeField] GameObject[] BarPos = new GameObject[5];//それぞれのバー・アイコンの高さ(参加者の数で変わる)
+
     private bool once = true;
 
     // Start is called before the first frame update
@@ -40,6 +42,38 @@ public class ResultController : MonoBehaviour
     private IEnumerator Result()
     {
         var players = PhotonNetwork.PlayerList;
+        yield return new WaitForSeconds(0.01f);
+
+        switch (players.Length)
+        {
+            case 2:
+                BarPos[0].transform.localPosition = new Vector3(0, -75, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -325, 0);
+                break;
+            case 3:
+                BarPos[0].transform.localPosition = new Vector3(0, 0, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -200, 0);
+                BarPos[2].transform.localPosition = new Vector3(0, -400, 0);
+                break;
+            case 4:
+                BarPos[0].transform.localPosition = new Vector3(0, 50, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -125, 0);
+                BarPos[2].transform.localPosition = new Vector3(0, -300, 0);
+                BarPos[3].transform.localPosition = new Vector3(0, -475, 0);
+                break;
+            case 5:
+                BarPos[0].transform.localPosition = new Vector3(0, 100, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -50, 0);
+                BarPos[2].transform.localPosition = new Vector3(0, -200, 0);
+                BarPos[3].transform.localPosition = new Vector3(0, -350, 0);
+                BarPos[4].transform.localPosition = new Vector3(0, -500, 0);
+                break;
+            default:
+                Debug.Log("参加者の数がおかしいです");
+                break;
+        }
+
+
         yield return new WaitForSeconds(0.01f);
 
         //アイコンのセット
