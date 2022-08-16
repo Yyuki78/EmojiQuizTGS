@@ -144,7 +144,7 @@ public class ShareAnswer : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(0.1f);
             if (player.IsMasterClient) continue;
-            IconImage[i].sprite = Resources.Load<Sprite>("Image/" + player.GetScore());
+            IconImage[i].sprite = Resources.Load<Sprite>("IconImage/" + player.GetScore());
             i++;
         }
         QustionerImage.gameObject.SetActive(true);

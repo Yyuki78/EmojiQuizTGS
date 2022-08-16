@@ -32,25 +32,36 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(Init());
+    }
+
+    private IEnumerator Init()
+    {
+        yield return new WaitForSeconds(0.1f);
         _themaGenerator = GetComponent<ThemaGenerator>();
 
         //各種リセット
         for (int j = 0; j < 4; j++)
         {
+            yield return new WaitForSeconds(0.1f);
             BGImage[j].gameObject.SetActive(false);
 
+            yield return new WaitForSeconds(0.1f);
             IconImage[j].sprite = null;
             IconImage[j].gameObject.SetActive(false);
 
-            AnswerImage[j].sprite = null;
+            yield return new WaitForSeconds(0.1f);
+            AnswerImage[j].sprite = Resources.Load<Sprite>("Image/129");
             AnswerImage[j].gameObject.SetActive(false);
 
+            yield return new WaitForSeconds(0.1f);
             Correct[j].gameObject.SetActive(false);
             inCorrect[j].gameObject.SetActive(false);
         }
+        yield return new WaitForSeconds(0.1f);
         CorrectImage.sprite = null;
         CorrectImage.gameObject.SetActive(false);
-        PhotonNetwork.LocalPlayer.SetChoiceNum(129);
+        yield return new WaitForSeconds(0.1f);
     }
 
     public void ShareAnswer(int ParticipantNum, int QuesitionNum, Player player)
@@ -86,7 +97,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(0.01f);
             if (player == Qplayer) continue;
-            IconImage[i].sprite = Resources.Load<Sprite>("Image/" + player.GetScore());
+            IconImage[i].sprite = Resources.Load<Sprite>("IconImage/" + player.GetScore());
             i++;
         }
 
@@ -260,11 +271,6 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         }
         CorrectImage.sprite = null;
         CorrectImage.gameObject.SetActive(false);
-
-        yield return new WaitForSeconds(0.1f);
-
-        //選択した数字をリセット
-        PhotonNetwork.LocalPlayer.SetChoiceNum(129);
 
         yield break;
     }
