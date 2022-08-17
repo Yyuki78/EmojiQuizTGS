@@ -282,12 +282,12 @@ public class ThemaGenerator : MonoBehaviour
                 do
                 {
                     int _attribute3 = newEmojiInfo.emojiAttribute3[_themaNum];
-                    int[] match = new int[6];
+                    int[] match = new int[105];
                     int n = 0;
 
                     yield return new WaitForSeconds(0.01f);
 
-                    for (int i = 1; i < newEmojiInfo.emojiID.Length+1; i++)
+                    for (int i = 1; i < newEmojiInfo.emojiID.Length; i++)
                     {
                         if (_attribute3 == newEmojiInfo.emojiAttribute3[i])
                         {
@@ -309,12 +309,12 @@ public class ThemaGenerator : MonoBehaviour
                 do
                 {
                     int _attribute2 = newEmojiInfo.emojiAttribute2[_themaNum];
-                    int[] match = new int[100];
+                    int[] match = new int[105];
                     int n = 0;
 
                     yield return new WaitForSeconds(0.01f);
 
-                    for (int i = 1; i < newEmojiInfo.emojiID.Length+1; i++)
+                    for (int i = 1; i < newEmojiInfo.emojiID.Length; i++)
                     {
                         if (_attribute2 == newEmojiInfo.emojiAttribute2[i])
                         {
@@ -336,12 +336,12 @@ public class ThemaGenerator : MonoBehaviour
                 do
                 {
                     int _attribute1 = newEmojiInfo.emojiAttribute1[_themaNum];
-                    int[] match = new int[100];
+                    int[] match = new int[105];
                     int n = 0;
 
                     yield return new WaitForSeconds(0.01f);
 
-                    for (int i = 1; i < newEmojiInfo.emojiID.Length+1; i++)
+                    for (int i = 1; i < newEmojiInfo.emojiID.Length; i++)
                     {
                         if (_attribute1 == newEmojiInfo.emojiAttribute1[i])
                         {

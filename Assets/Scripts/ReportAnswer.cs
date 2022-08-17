@@ -32,6 +32,10 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
     public static bool[] answer4 = new bool[5];
     public static bool[] answer5 = new bool[5];
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +46,8 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(0.1f);
         _themaGenerator = GetComponent<ThemaGenerator>();
+
+        _audio = AudioManager.GetComponent<AudioManager>();
 
         //各種リセット
         for (int j = 0; j < 4; j++)
@@ -159,12 +165,31 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         }
 
         //ドラムロール
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(0.3f);
+        _audio.SE6();
+        yield return new WaitForSeconds(2.7f);
 
         //正解を出す
         CorrectImage.sprite = Resources.Load<Sprite>("Image/" + _themaGenerator._themaNum);
         CorrectImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.25f);
+
+        //自分の正解不正解
+        if(PhotonNetwork.LocalPlayer.GetChoiceNum() == _themaGenerator._themaNum)
+        {
+            if (PhotonNetwork.LocalPlayer != Qplayer)
+            {
+                _audio.SE4();
+            }
+        }
+        else
+        {
+            if (PhotonNetwork.LocalPlayer != Qplayer)
+            {
+                _audio.SE5();
+            }
+        }
+        yield return new WaitForSeconds(0.01f);
 
         //それぞれの正解不正解の表示
         i = 0;

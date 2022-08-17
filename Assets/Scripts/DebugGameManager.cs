@@ -27,10 +27,15 @@ public class DebugGameManager : MonoBehaviour
     [SerializeField] GameObject MainGamePanel;
     [SerializeField] GameObject ResultPanel;
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
     void Awake()
     {
         Instance = this;
         SetCurrentState(GameMode.Start);
+        _audio = AudioManager.GetComponent<AudioManager>();
     }
 
     // 外からこのメソッドを使って状態を変更
@@ -102,6 +107,8 @@ public class DebugGameManager : MonoBehaviour
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(false);
 
+        _audio.StopBGM();
+
         StartCoroutine(WaitMovie());
     }
 
@@ -127,6 +134,9 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(true);
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(false);
+
+        _audio.StopBGM();
+        _audio.BGM2();
     }
 
     // MainGameになったときの処理
@@ -139,6 +149,8 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(false);
         MainGamePanel.SetActive(true);
         ResultPanel.SetActive(false);
+
+        _audio.StopBGM();
     }
 
     // Resultになったときの処理
@@ -151,6 +163,9 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(false);
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(true);
+
+        _audio.StopBGM();
+        _audio.BGM4();
     }
 
     private IEnumerator WaitMovie()

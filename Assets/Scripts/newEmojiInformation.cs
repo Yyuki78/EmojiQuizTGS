@@ -8,7 +8,7 @@ public class newEmojiInformation//MonoBehaviourは継承しない
     static TextAsset csvFile;//CSVファイルを変数として扱うために宣言
     static List<string[]> emojiData = new List<string[]>();//CSVファイルの中身を入れる配列を定義。全てのデータが文字列形式で格納される
     //変数名[i]が絵文字IDがiの情報をそれぞれ示す
-    public int[] emojiID = new int[100];//絵文字のID
+    public int[] emojiID = new int[101];//絵文字のID
     public int[] emojiAttribute1 = new int[101];//絵文字の属性1。感情(喜怒哀楽＋無＋その他(驚き、呆れ等)を1～6で表す)
     public int[] emojiAttribute2 = new int[101];//絵文字の属性2。表情(20で分ける一つの分類で4個以上)
     public int[] emojiAttribute3 = new int[101];//絵文字の属性3。酷似しているもの(一つの属性で2～個)
@@ -25,12 +25,27 @@ public class newEmojiInformation//MonoBehaviourは継承しない
             emojiData.Add(line.Split(','));//,区切りでリストに追加していく
         }
     }
+
     //emojiDataに一度CSVファイルのデータを読み込んだら他のプログラムから扱いやすいよう定義したemojiID等の変数にデータを格納する
     public void Init()
     {
+        //配列を初期化
+        emojiID = new int[101];
+        emojiAttribute1 = new int[101];
+        emojiAttribute2 = new int[101];
+        emojiAttribute3 = new int[101];
+        imageAddress = new string[101];
+
         CsvReader();//emojiDataへ情報を一時格納
+
+        int maxNum = emojiData.Count;
+        if (emojiData.Count > 101)
+        {
+            maxNum = 101;
+        }
+
         //各変数へデータを格納
-        for (int i = 1; i < emojiData.Count; i++)//絵文字IDが記述された最後まで読み込み。一行目はタイトルなのでi=0はデータとして扱わない
+        for (int i = 1; i < maxNum; i++)//絵文字IDが記述された最後まで読み込み。一行目はタイトルなのでi=0はデータとして扱わない
         {
             emojiID[i] = int.Parse(emojiData[i][0]);//string型からint型へ変換
             emojiAttribute1[i] = int.Parse(emojiData[i][1]);

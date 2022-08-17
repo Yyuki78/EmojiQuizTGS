@@ -45,6 +45,10 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     private ReportAnswer _answer;
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -55,6 +59,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
         _themaGenerator = GetComponent<ThemaGenerator>();
 
         _answer = GetComponent<ReportAnswer>();
+
+        _audio = AudioManager.GetComponent<AudioManager>();
 
         //全プレイヤー取得
         Players = PhotonNetwork.PlayerList;
@@ -132,11 +138,13 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             //出題者
             Questioner = true;
+            _audio.SE2();
         }
         else
         {
             //解答者
             Answerer = true;
+            _audio.SE3();
         }
         yield return new WaitForSeconds(0.1f);
 
@@ -202,6 +210,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.1f);
 
         //カウントダウン表示
+        _audio.BGM3();
 
         yield return new WaitForSeconds(13f);
         //yield return new WaitForSeconds(3f);
@@ -230,6 +239,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //マスターは問題数が5ならリザルトへ行かせる
         if (PhotonNetwork.IsMasterClient && QuesitionNum == 5)
         {
+            yield return new WaitForSeconds(1.0f);
             _view.RPC(nameof(StartResult), RpcTarget.All);
         }
         yield return new WaitForSeconds(0.1f);
