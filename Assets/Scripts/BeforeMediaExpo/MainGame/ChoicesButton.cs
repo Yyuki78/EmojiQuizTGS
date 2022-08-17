@@ -24,16 +24,23 @@ public class ChoicesButton : MonoBehaviour
     private int choiceNum;
     private int x;
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
     // Start is called before the first frame update
     void Awake()
     {
         _themaGenerator = MainGamePanel.GetComponent<ThemaGenerator>();
         ChooseFlame.SetActive(false);
+        _audio = AudioManager.GetComponent<AudioManager>();
     }
 
     //ボタンにこの関数を割り当てて使用
     public void SendChoice()
     {
+        _audio.SE1();
+
         //押されたボタンのオブジェクトをイベントシステムのcurrentSelectedGameObject関数から取得　
         button_ob = eventSystem.currentSelectedGameObject;
         Debug.Log("選択されたのは" + button_ob.name);

@@ -70,6 +70,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(0.1f);
             SelectObjects[j].SetActive(true);
         }
+
         yield return new WaitForSeconds(0.1f);
         CorrectImage.sprite = null;
         CorrectImage.gameObject.SetActive(false);
@@ -105,26 +106,9 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
     }
 
     //ìöÇ¶çáÇÌÇπ
-    public void ShareAnswer(int ParticipantNum, int QuesitionNum, Player player)
+    public void ShareAnswer(int QuesitionNum, Player player)
     {
-        switch (ParticipantNum)
-        {
-            case 2:
-                StartCoroutine(ShowAnswer1(QuesitionNum, player));
-                break;
-            case 3:
-                StartCoroutine(ShowAnswer1(QuesitionNum, player));
-                break;
-            case 4:
-                StartCoroutine(ShowAnswer1(QuesitionNum, player));
-                break;
-            case 5:
-                StartCoroutine(ShowAnswer1(QuesitionNum, player));
-                break;
-            default:
-                Debug.Log("éQâ¡êlêîÇ™Ç®Ç©ÇµÇ¢Ç≈Ç∑");
-                break;
-        }
+        StartCoroutine(ShowAnswer1(QuesitionNum, player));
     }
 
     private IEnumerator ShowAnswer1(int Qnum, Player Qplayer)

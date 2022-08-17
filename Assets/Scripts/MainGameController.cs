@@ -229,15 +229,15 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         //プレイヤーの解答表示
         //答えの表示
-        _answer.ShareAnswer(ParticipantsNum, QuesitionNum, Players[(QuesitionNum - 1) % ParticipantsNum]);
+        _answer.ShareAnswer(QuesitionNum, Players[(QuesitionNum - 1) % ParticipantsNum]);
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5.5f);
         //問題数の増加
         QuesitionNum++;
-        yield return new WaitForSeconds(5.5f);
+        yield return new WaitForSeconds(2.5f);
 
-        //マスターは問題数が5ならリザルトへ行かせる
-        if (PhotonNetwork.IsMasterClient && QuesitionNum == 5)
+        //マスターは問題数が6ならリザルトへ行かせる
+        if (PhotonNetwork.IsMasterClient && QuesitionNum == 6)
         {
             yield return new WaitForSeconds(1.0f);
             _view.RPC(nameof(StartResult), RpcTarget.All);
@@ -247,7 +247,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //次の問題へ
         if (PhotonNetwork.IsMasterClient)
         {
-            if (QuesitionNum == 5) yield break;
+            if (QuesitionNum == 6) yield break;
             _view.RPC(nameof(StartInformRole), RpcTarget.All);
         }
     }
