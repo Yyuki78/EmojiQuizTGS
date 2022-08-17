@@ -1428,7 +1428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &205671234
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6209,7 +6209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -75}
+  m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &881703224
@@ -7412,7 +7412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -400}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1024726158
@@ -7695,6 +7695,7 @@ MonoBehaviour:
   InRoomPanel: {fileID: 940652861}
   MainGamePanel: {fileID: 1839623068}
   ResultPanel: {fileID: 205671233}
+  AudioManager: {fileID: 1343287913}
 --- !u!4 &1070373806
 Transform:
   m_ObjectHideFlags: 0
@@ -7725,6 +7726,7 @@ MonoBehaviour:
   isVisible: 1
   roomName1: Room1
   roomName2: Room2
+  AudioManager: {fileID: 1343287913}
 --- !u!114 &1070373808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9454,9 +9456,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a8d654eecb03c8d489b81571c2e4e6eb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9554,15 +9556,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgm: {fileID: 1343287915}
   se: {fileID: 1343287914}
-  bgm1: {fileID: 8300000, guid: 9b3d1c5b82a8a9a4aa038333923e01a3, type: 3}
-  bgm2: {fileID: 8300000, guid: 457a7adc39c1f5841a927dc7c6d435fc, type: 3}
-  bgm3: {fileID: 0}
+  bgm1: {fileID: 8300000, guid: a8d654eecb03c8d489b81571c2e4e6eb, type: 3}
+  bgm2: {fileID: 8300000, guid: 9b3d1c5b82a8a9a4aa038333923e01a3, type: 3}
+  bgm3: {fileID: 8300000, guid: 457a7adc39c1f5841a927dc7c6d435fc, type: 3}
   bgm4: {fileID: 8300000, guid: 3e813f557a5220e47878621b409af411, type: 3}
   se1: {fileID: 8300000, guid: e249b27ee4d444d4d85af413ec726d77, type: 3}
-  se2: {fileID: 0}
-  se3: {fileID: 0}
-  se4: {fileID: 0}
-  se5: {fileID: 0}
+  se2: {fileID: 8300000, guid: f119837deae14e542b55e586b90458ff, type: 3}
+  se3: {fileID: 8300000, guid: a063307e0ec4e0d468fd79f3debd5bed, type: 3}
+  se4: {fileID: 8300000, guid: 1e0c5935635699f45869289a970e2af0, type: 3}
+  se5: {fileID: 8300000, guid: 5b32820e0d77997419cc5b4908c6a92a, type: 3}
+  se6: {fileID: 8300000, guid: 6b03a76c28ae88b42bb0b21f2f7fca58, type: 3}
+  se7: {fileID: 8300000, guid: 5c68c259841c39a4fbdd6964f443a267, type: 3}
 --- !u!4 &1343287917
 Transform:
   m_ObjectHideFlags: 0
@@ -11680,7 +11684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -325}
+  m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1670892537
@@ -12828,6 +12832,7 @@ MonoBehaviour:
   AnswererPanel: {fileID: 2117645596}
   ReportAnswerPanel: {fileID: 1495169832}
   myIconImage: {fileID: 2045980417}
+  AudioManager: {fileID: 1343287913}
 --- !u!114 &1839623073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12915,6 +12920,7 @@ MonoBehaviour:
   - {fileID: 1470319307}
   - {fileID: 350071022}
   - {fileID: 1265497688}
+  AudioManager: {fileID: 1343287913}
 --- !u!1 &1874359013
 GameObject:
   m_ObjectHideFlags: 0
@@ -13406,7 +13412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -475}
+  m_AnchoredPosition: {x: 0, y: -350}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1975932192

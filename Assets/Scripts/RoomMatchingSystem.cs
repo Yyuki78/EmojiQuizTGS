@@ -20,6 +20,10 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
 
     private PhotonView _view;
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Awake & Start ////////////////////////////////////////////////////////////////////
@@ -39,6 +43,7 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
         // Photonに接続
         PhotonNetwork.ConnectUsingSettings();
         _view = GetComponent<PhotonView>();
+        _audio = AudioManager.GetComponent<AudioManager>();
     }
     /*
     // ニックネームを付ける
@@ -63,6 +68,7 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     //部屋に入室する （存在しなければ作成して入室する）
     public void JoinOrCreateRoom1()
     {
+        Debug.Log("部屋に入りたい　1");
         // ルームオプションの基本設定
         RoomOptions roomOptions = new RoomOptions
         {
@@ -84,6 +90,7 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     //部屋に入室する （存在しなければ作成して入室する）
     public void JoinOrCreateRoom2()
     {
+        Debug.Log("部屋に入りたい　2");
         // ルームオプションの基本設定
         RoomOptions roomOptions = new RoomOptions
         {
@@ -194,7 +201,10 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     // 特定の部屋への入室に失敗した時
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
+        _audio.SE7();
         Debug.Log("OnJoinRoomFailed");
+
+        PhotonNetwork.JoinLobby();
     }
 
 
