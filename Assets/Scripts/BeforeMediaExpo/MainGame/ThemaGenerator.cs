@@ -38,6 +38,10 @@ public class ThemaGenerator : MonoBehaviour
     //“š‚¦‚Ì‘I‘ğˆ”Ô†
     public int CorrectPos;
 
+    //Šù‚Éo‚½–â‘è‚ğŠi”[‚·‚éêŠ
+    private int[] AlreadyOutEmoji = new int[5];
+    private int QuestionNum = 0;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -70,7 +74,13 @@ public class ThemaGenerator : MonoBehaviour
                 Debug.Log("‚¨‘è‚Ìî•ñ‚Í" + emojiInfo.emojiAttribute1[_themaNum] + "," + emojiInfo.emojiAttribute2[_themaNum] + "," + emojiInfo.imageAddress[_themaNum]);
                 break;
             case 2:
-                _themaNum = UnityEngine.Random.Range(1, 100);
+                do
+                {
+                    _themaNum = UnityEngine.Random.Range(1, 100);
+                } while (AlreadyOutEmoji[0] == _themaNum || AlreadyOutEmoji[1] == _themaNum || AlreadyOutEmoji[2] == _themaNum || AlreadyOutEmoji[3] == _themaNum || AlreadyOutEmoji[4] == _themaNum);
+                AlreadyOutEmoji[QuestionNum] = _themaNum;
+                QuestionNum++;
+
                 Debug.Log("‚¨‘è‚Í" + (_themaNum + 1));
                 Debug.Log("‚¨‘è‚Ìî•ñ‚Í" + newEmojiInfo.emojiAttribute1[_themaNum] + "," + newEmojiInfo.emojiAttribute2[_themaNum] + "," + newEmojiInfo.emojiAttribute3[_themaNum] + "," + newEmojiInfo.imageAddress[_themaNum]);
                 break;

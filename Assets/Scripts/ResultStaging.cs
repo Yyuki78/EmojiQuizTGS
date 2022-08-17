@@ -32,6 +32,7 @@ public class ResultStaging : MonoBehaviour
             //ここで1つずつ正解不正解を表示する
             if (score[i] == true)
             {
+                Debug.Log(num + "番は正解");
                 BarPos[i].localPosition = new Vector2(xPos, 200);
                 //正解なら問題数に合ったバーを伸ばす
                 for (int j = 0; j < 100; j++)
@@ -43,6 +44,7 @@ public class ResultStaging : MonoBehaviour
             }
             else
             {
+                Debug.Log(num + "番は不正解");
                 for (int j = 0; j < 100; j++)
                 {
                     yield return new WaitForSeconds(0.01f);

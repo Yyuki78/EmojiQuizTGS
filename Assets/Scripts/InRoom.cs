@@ -13,6 +13,7 @@ public class InRoom : MonoBehaviourPunCallbacks
     //ゲーム開始判定用
     private bool isStart = false;
     private bool once = true;
+    private bool once2 = true;
 
     //アイコン選択画面の点滅用
     private bool isFlashingIcon = false;
@@ -40,10 +41,15 @@ public class InRoom : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject[] alreadySelectIconImages = new GameObject[6];//既に選択されたアイコンを隠す用
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
     // Start is called before the first frame update
     void Start()
     {
         _view = GetComponent<PhotonView>();
+        _audio = AudioManager.GetComponent<AudioManager>();
         noSelectPanel.SetActive(true);
         myCheckMarkImage.SetActive(false);
         for(int i = 0; i < 4; i++)
@@ -179,6 +185,8 @@ public class InRoom : MonoBehaviourPunCallbacks
 
     public void OnClickIcon()
     {
+        _audio.SE1();
+
         //準備完了ボタンを押せるようにする
         noSelectPanel.SetActive(false);
 
@@ -192,14 +200,20 @@ public class InRoom : MonoBehaviourPunCallbacks
 
         myIconImage.sprite = Resources.Load<Sprite>("IconImage/" + x);
 
-        IconSelectImage.color = new Color(1, 1, 1, 0.8f);
-        isFlashingIcon = false;
-        isFlashing = true;
+        if (once2)
+        {
+            once2 = false;
+            IconSelectImage.color = new Color(1, 1, 1, 0.8f);
+            isFlashingIcon = false;
+            isFlashing = true;
+        }
     }
 
     public void OnClickReadyButton()
     {
         Debug.Log("準備完了！");
+        _audio.SE1();
+
         // 準備完了
         if (PhotonNetwork.InRoom)
         {

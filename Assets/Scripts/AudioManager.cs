@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
         bgm.Stop();
     }
 
-    //クリック
+    //クリック InRoom,DebugGameManger,ChoicesButtonで使用
     public void SE1()
     {
         se.volume = 0.2f;
