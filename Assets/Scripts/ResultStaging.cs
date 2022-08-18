@@ -9,6 +9,8 @@ public class ResultStaging : MonoBehaviour
     private Transform[] BarPos = new Transform[5];//正解時のバーの座標
     private Image[] CorrectImage = new Image[5];//正解時のバー画像
 
+    public bool isFinishResult = false;
+
     private int xPos = -250;//伸ばすバーのx座標
 
     // Start is called before the first frame update
@@ -45,13 +47,24 @@ public class ResultStaging : MonoBehaviour
             else
             {
                 Debug.Log(num + "番は不正解");
-                for (int j = 0; j < 100; j++)
+                if (ReportAnswer.answer1[i] == false && ReportAnswer.answer2[i] == false && ReportAnswer.answer3[i] == false && ReportAnswer.answer4[i] == false && ReportAnswer.answer5[i] == false)
                 {
-                    yield return new WaitForSeconds(0.01f);
+                    Debug.Log("全員が不正解です");
+                }
+                else
+                {
+                    for (int j = 0; j < 100; j++)
+                    {
+                        yield return new WaitForSeconds(0.01f);
+                    }
                 }
             }
             yield return new WaitForSeconds(0.5f);
         }
+
+        Debug.Log("リザルト終わりました");
+        isFinishResult = true;
+
         yield break;
     }
 }

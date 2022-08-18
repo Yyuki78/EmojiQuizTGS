@@ -8,6 +8,10 @@ using UnityEngine.SceneManagement;
 
 public class ResultController : MonoBehaviour
 {
+    [SerializeField] Image[] IconFlameImage = new Image[5];//アイコンフレーム画像
+    [SerializeField] Sprite myIconFlame;//自分のアイコンフレーム
+    [SerializeField] Sprite otherIconFlame;//他人のアイコンフレーム
+
     [SerializeField] Image[] IconImage = new Image[5];//Icon画像を表示させるImageオブジェクト
 
     private ResultStaging[] _staging = new ResultStaging[5];//バー演出
@@ -22,6 +26,8 @@ public class ResultController : MonoBehaviour
         _staging = GetComponentsInChildren<ResultStaging>();
         for(int i = 0; i < 5; i++)
         {
+            IconFlameImage[i].sprite = otherIconFlame;
+            IconFlameImage[i].gameObject.SetActive(false);
             IconImage[i].gameObject.SetActive(false);
         }
     }
@@ -82,6 +88,11 @@ public class ResultController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.01f);
             IconImage[i].sprite = Resources.Load<Sprite>("IconImage/" + player.GetScore());
+            if (player == PhotonNetwork.LocalPlayer)
+            {
+                IconFlameImage[i].sprite = myIconFlame;
+            }
+            IconFlameImage[i].gameObject.SetActive(true);
             IconImage[i].gameObject.SetActive(true);
             i++;
         }
@@ -104,7 +115,11 @@ public class ResultController : MonoBehaviour
             StartCoroutine(_staging[4].Staging(ReportAnswer.answer5, 5));
         }
 
-        yield return new WaitForSeconds(15f);
+        while (!_staging[0].isFinishResult)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(3f);
 
         //カウントダウン
         yield return new WaitForSeconds(5f);
