@@ -43,6 +43,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     private PhotonView _view;
 
+    private InformRoleDisplay _inform;
+
     private ReportAnswer _answer;
 
     //音系
@@ -57,6 +59,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
         _view = GetComponent<PhotonView>();
 
         _themaGenerator = GetComponent<ThemaGenerator>();
+
+        _inform = GetComponent<InformRoleDisplay>();
 
         _answer = GetComponent<ReportAnswer>();
 
@@ -157,6 +161,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             AnswererText.SetActive(true);
         }
+        StartCoroutine(_inform.showIcon(Players[(QuesitionNum - 1) % ParticipantsNum]));
         yield return new WaitForSeconds(0.1f);
 
         //マスターは問題の設定
@@ -168,6 +173,12 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }
         
         yield return new WaitForSeconds(0.1f);
+
+        yield return new WaitForSeconds(0.5f);
+        if (QuesitionNum == 1)
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
         //カウントダウン表示
         yield return new WaitForSeconds(1f);

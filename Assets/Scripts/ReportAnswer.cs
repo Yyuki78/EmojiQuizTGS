@@ -13,6 +13,10 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
 
     [SerializeField] Image[] BGImage = new Image[4];//背景画像
 
+    [SerializeField] Image[] IconFlameImage = new Image[4];//アイコンフレーム画像
+    [SerializeField] Sprite myIconFlame;//自分のアイコンフレーム
+    [SerializeField] Sprite otherIconFlame;//他人のアイコンフレーム
+
     [SerializeField] Image[] IconImage = new Image[4];//Icon画像を表示させるImageオブジェクト
 
     [SerializeField] Image[] AnswerImage = new Image[4];//Emoji画像を表示させるImageオブジェクト
@@ -54,6 +58,10 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         {
             yield return new WaitForSeconds(0.1f);
             BGImage[j].gameObject.SetActive(false);
+
+            yield return new WaitForSeconds(0.1f);
+            IconFlameImage[j].sprite = otherIconFlame;
+            IconFlameImage[j].gameObject.SetActive(false);
 
             yield return new WaitForSeconds(0.1f);
             IconImage[j].sprite = null;
@@ -123,12 +131,17 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(0.01f);
             if (player == Qplayer) continue;
             IconImage[i].sprite = Resources.Load<Sprite>("IconImage/" + player.GetScore());
+            if (player == PhotonNetwork.LocalPlayer)
+            {
+                IconFlameImage[i].sprite = myIconFlame;
+            }
             i++;
         }
 
         for (int j = 0; j < players.Length-1; j++)
         {
             BGImage[j].gameObject.SetActive(true);
+            IconFlameImage[j].gameObject.SetActive(true);
             IconImage[j].gameObject.SetActive(true);
         }
 
@@ -301,6 +314,10 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         //各種リセット
         for(int j = 0; j < players.Length-1; j++)
         {
+            IconFlameImage[j].sprite = otherIconFlame;
+            IconFlameImage[j].gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+
             IconImage[j].sprite = null;
             IconImage[j].gameObject.SetActive(false);
             yield return new WaitForSeconds(0.1f);
