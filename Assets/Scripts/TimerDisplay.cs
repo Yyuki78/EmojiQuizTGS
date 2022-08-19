@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class TimerDisplay : MonoBehaviour
 {
-    //12ŒÂ‚ÌŠÔƒQ[ƒW‚ğ1•b‚²‚Æ‚ÉÁ‚µ‚Ä‚¢‚­
-    [SerializeField] GameObject[] Timers = new GameObject[12];
+    //MaxNumŒÂ‚ÌŠÔƒQ[ƒW‚ğ1•b‚²‚Æ‚ÉÁ‚µ‚Ä‚¢‚­
+    [SerializeField] GameObject[] Timers = new GameObject[MaxNum];
 
     private bool once = true;
-    private int Num = 12;
+    private const int MaxNum = 14;
+    private int Num = MaxNum;
 
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < MaxNum; i++)
         {
             Timers[i].gameObject.SetActive(false);
         }
         once = true;
-        Num = 12;
+        Num = MaxNum;
     }
 
     // Update is called once per frame
@@ -31,7 +32,7 @@ public class TimerDisplay : MonoBehaviour
                 if (once)
                 {
                     StartCoroutine("Time");
-                    for (int i = 0; i < 12; i++)
+                    for (int i = 0; i < MaxNum; i++)
                     {
                         Timers[i].gameObject.SetActive(true);
                     }
@@ -59,11 +60,11 @@ public class TimerDisplay : MonoBehaviour
 
     public void Init()
     {
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < MaxNum; i++)
         {
             Timers[i].gameObject.SetActive(false);
         }
         once = true;
-        Num = 12;
+        Num = MaxNum;
     }
 }

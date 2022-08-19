@@ -223,7 +223,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //カウントダウン表示
         _audio.BGM3();
 
-        yield return new WaitForSeconds(13f);
+        yield return new WaitForSeconds(14.5f);
         //yield return new WaitForSeconds(3f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -312,6 +312,6 @@ public class MainGameController : MonoBehaviourPunCallbacks
     private void StartResult()
     {
         Debug.Log("ゲーム終了！！！");
-        DebugGameManager.Instance.SetCurrentState(DebugGameManager.GameMode.Result);
+        DebugGameManager.Instance.GoResult();
     }
 }

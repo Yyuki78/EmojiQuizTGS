@@ -18,6 +18,8 @@ public class ResultController : MonoBehaviour
 
     [SerializeField] GameObject[] BarPos = new GameObject[5];//それぞれのバー・アイコンの高さ(参加者の数で変わる)
 
+    [SerializeField] Image CountdownImage;
+
     private bool once = true;
 
     // Start is called before the first frame update
@@ -30,6 +32,8 @@ public class ResultController : MonoBehaviour
             IconFlameImage[i].gameObject.SetActive(false);
             IconImage[i].gameObject.SetActive(false);
         }
+        CountdownImage.fillAmount = 0;
+        CountdownImage.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -119,11 +123,17 @@ public class ResultController : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
+        CountdownImage.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
         //カウントダウン
-        yield return new WaitForSeconds(5f);
-
+        for (int j = 0; j < 100; j++)
+        {
+            CountdownImage.fillAmount += 0.01f;
+            yield return new WaitForSeconds(0.05f);
+        }
 
         //部屋から退出し、シーンをリロードする
         Debug.Log("タイトルに戻ります");
@@ -147,6 +157,7 @@ public class ResultController : MonoBehaviour
 
         yield return new WaitForSeconds(0.01f);
         PhotonNetwork.Disconnect();
+
         yield return new WaitForSeconds(0.01f);
         SceneManager.LoadScene("MainScene");
     }
