@@ -31,11 +31,15 @@ public class DebugGameManager : MonoBehaviour
     [SerializeField] GameObject AudioManager;
     private AudioManager _audio;
 
+    //画面遷移演出用画像
+    [SerializeField] GameObject TransitionImage;
+
     void Awake()
     {
         Instance = this;
         SetCurrentState(GameMode.Start);
         _audio = AudioManager.GetComponent<AudioManager>();
+        TransitionImage.SetActive(false);
     }
 
     // 外からこのメソッドを使って状態を変更
@@ -49,6 +53,12 @@ public class DebugGameManager : MonoBehaviour
     {
         currentGameState = state;
         OnGameStateChanged(currentGameState);
+    }
+
+    //リザルト移行時に使用
+    public void GoResult()
+    {
+        StartCoroutine(TransitionResult());
     }
 
     public GameMode GetCurrentState()
@@ -157,6 +167,23 @@ public class DebugGameManager : MonoBehaviour
     void ResultAction()
     {
         Debug.Log("ResultMode");
+    }
+
+    private IEnumerator TransitionResult()
+    {
+        TransitionImage.transform.localPosition = new Vector3(1350, 0, 0);
+        TransitionImage.SetActive(true);
+
+        _audio.StopBGM();
+        
+        //リザルト移行時の効果音があるならここ
+
+        for (int i = 0; i < 27; i++)
+        {
+            TransitionImage.transform.localPosition -= new Vector3(50, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+        }
+
         StartPanel.SetActive(false);
         MoviePanel.SetActive(false);
         RoomSelectPanel.SetActive(false);
@@ -164,14 +191,26 @@ public class DebugGameManager : MonoBehaviour
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(true);
 
-        _audio.StopBGM();
+        SetCurrentState(DebugGameManager.GameMode.Result);
+
+        for (int i = 0; i < 27; i++)
+        {
+            TransitionImage.transform.localPosition -= new Vector3(50, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+        }
+
+        yield return new WaitForSeconds(0.2f);
+        TransitionImage.SetActive(false);
         _audio.BGM4();
+
+        yield break;
     }
 
     private IEnumerator WaitMovie()
     {
         //動画時間分待ってからルーム選択に移行する
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(18f);
+        if (currentGameState != GameMode.Movie) yield break;
         SetCurrentState(DebugGameManager.GameMode.RoomSelect);
         yield break;
     }

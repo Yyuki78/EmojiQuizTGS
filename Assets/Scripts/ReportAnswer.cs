@@ -145,7 +145,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             IconImage[j].gameObject.SetActive(true);
         }
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.01f);
 
         //それぞれの解答をセット
         int k = 0;
@@ -156,10 +156,12 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             Debug.Log(player.GetChoiceNum());
             k++;
         }
+        yield return new WaitForSeconds(0.01f);
         for (int j = 0; j < players.Length-1; j++)
         {
             AnswerImage[j].gameObject.SetActive(true);
         }
+        yield return new WaitForSeconds(0.5f);
 
         //ドラムロール
         yield return new WaitForSeconds(0.3f);
