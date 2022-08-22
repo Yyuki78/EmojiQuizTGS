@@ -175,13 +175,14 @@ public class DebugGameManager : MonoBehaviour
         TransitionImage.SetActive(true);
 
         _audio.StopBGM();
-        
-        //リザルト移行時の効果音があるならここ
 
-        for (int i = 0; i < 27; i++)
+        //リザルト移行時の効果音があるならここ
+        _audio.SE9();
+
+        for (int i = 0; i < 54; i++)
         {
-            TransitionImage.transform.localPosition -= new Vector3(50, 0, 0);
-            yield return new WaitForSeconds(0.02f);
+            TransitionImage.transform.localPosition -= new Vector3(25, 0, 0);
+            yield return new WaitForSeconds(0.015f);
         }
 
         StartPanel.SetActive(false);
@@ -193,11 +194,12 @@ public class DebugGameManager : MonoBehaviour
 
         SetCurrentState(DebugGameManager.GameMode.Result);
 
-        for (int i = 0; i < 27; i++)
+        for (int i = 0; i < 54; i++)
         {
-            TransitionImage.transform.localPosition -= new Vector3(50, 0, 0);
-            yield return new WaitForSeconds(0.02f);
+            TransitionImage.transform.localPosition -= new Vector3(25, 0, 0);
+            yield return new WaitForSeconds(0.015f);
         }
+        _audio.ResetSE();
 
         yield return new WaitForSeconds(0.2f);
         TransitionImage.SetActive(false);

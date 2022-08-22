@@ -13,10 +13,15 @@ public class ResultStaging : MonoBehaviour
 
     private int xPos = -250;//伸ばすバーのx座標
 
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
+
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < 5; i++)
+        _audio = AudioManager.GetComponent<AudioManager>();
+        for (int i = 0; i < 5; i++)
         {
             BarPos[i] = BarImage[i].GetComponent<Transform>();
             CorrectImage[i] = BarImage[i].GetComponent<Image>();
@@ -24,7 +29,7 @@ public class ResultStaging : MonoBehaviour
         }
     }
 
-    public IEnumerator Staging(bool[] score, int num)
+    public IEnumerator Staging(bool[] score, int num, bool isMine)
     {
         yield return new WaitForSeconds(1f);
         Debug.Log("スコアの表示を始めます");
@@ -35,6 +40,11 @@ public class ResultStaging : MonoBehaviour
             if (score[i] == true)
             {
                 Debug.Log(num + "番は正解");
+                if (isMine)
+                {
+                    _audio.SE8();
+                }
+
                 BarPos[i].localPosition = new Vector2(xPos, 200);
                 //正解なら問題数に合ったバーを伸ばす
                 for (int j = 0; j < 100; j++)
