@@ -37,6 +37,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     [SerializeField] Image myIconImage;//左下に表示され続ける自分のアイコン
 
+    [SerializeField] Image TransitionStateImage;//画面が切り替わる際の演出用画像
+    [SerializeField] Sprite[] TransitionImage = new Sprite[3];
 
     private bool once = true;
     private bool isSendQuestion = false;
@@ -80,6 +82,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
         }*/
 
         myIconImage.sprite = Resources.Load<Sprite>("IconImage/" + PhotonNetwork.LocalPlayer.GetScore());
+
+        TransitionStateImage.fillAmount = 0;
+        TransitionStateImage.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -199,6 +204,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(1f);
 
+        StartCoroutine(TransitionEffect());
+        yield return new WaitForSeconds(1f);
+
         if (PhotonNetwork.IsMasterClient)
         {
             _view.RPC(nameof(StartQuestionTime), RpcTarget.All);
@@ -225,6 +233,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(14.5f);
         //yield return new WaitForSeconds(3f);
+
+        StartCoroutine(TransitionEffect());
+        yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -254,6 +265,11 @@ public class MainGameController : MonoBehaviourPunCallbacks
             _view.RPC(nameof(StartResult), RpcTarget.All);
         }
         yield return new WaitForSeconds(0.1f);
+
+        if (QuesitionNum == 6) yield break;
+
+        StartCoroutine(TransitionEffect());
+        yield return new WaitForSeconds(1f);
 
         //次の問題へ
         if (PhotonNetwork.IsMasterClient)
@@ -313,5 +329,24 @@ public class MainGameController : MonoBehaviourPunCallbacks
     {
         Debug.Log("ゲーム終了！！！");
         DebugGameManager.Instance.GoResult();
+    }
+
+    private int num = 0;
+    private IEnumerator TransitionEffect()
+    {
+        TransitionStateImage.fillAmount = 0;
+        TransitionStateImage.gameObject.SetActive(true);
+        for (int i = 0; i < 50; i++)
+        {
+            TransitionStateImage.fillAmount += 0.02f;
+            yield return new WaitForSeconds(0.01f);
+        }
+        yield return new WaitForSeconds(0.4f);
+        TransitionStateImage.fillAmount = 0;
+        TransitionStateImage.gameObject.SetActive(false);
+        TransitionStateImage.sprite = TransitionImage[num];
+        num++;
+        if (num == 3) num = 0;
+        yield break;
     }
 }

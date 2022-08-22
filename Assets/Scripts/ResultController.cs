@@ -18,19 +18,26 @@ public class ResultController : MonoBehaviour
 
     [SerializeField] GameObject[] BarPos = new GameObject[5];//それぞれのバー・アイコンの高さ(参加者の数で変わる)
 
-    [SerializeField] Image CountdownImage;
+    [SerializeField] Image CountdownImage;//タイトルに戻る際のカウントダウン演出用
 
+    private bool[] isMine = new bool[5];//自分のアイコンのバーかどうか ResultStagingに受け渡す
     private bool once = true;
+
+    //音系
+    [SerializeField] GameObject AudioManager;
+    private AudioManager _audio;
 
     // Start is called before the first frame update
     void Start()
     {
+        _audio = AudioManager.GetComponent<AudioManager>();
         _staging = GetComponentsInChildren<ResultStaging>();
         for(int i = 0; i < 5; i++)
         {
             IconFlameImage[i].sprite = otherIconFlame;
             IconFlameImage[i].gameObject.SetActive(false);
             IconImage[i].gameObject.SetActive(false);
+            isMine[i] = false;
         }
         CountdownImage.fillAmount = 0;
         CountdownImage.gameObject.SetActive(false);
@@ -95,6 +102,7 @@ public class ResultController : MonoBehaviour
             if (player == PhotonNetwork.LocalPlayer)
             {
                 IconFlameImage[i].sprite = myIconFlame;
+                isMine[i] = true;
             }
             IconFlameImage[i].gameObject.SetActive(true);
             IconImage[i].gameObject.SetActive(true);
@@ -104,19 +112,19 @@ public class ResultController : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         Debug.Log("ShowResult");
-        StartCoroutine(_staging[0].Staging(ReportAnswer.answer1, 1));
-        StartCoroutine(_staging[1].Staging(ReportAnswer.answer2, 2));
+        StartCoroutine(_staging[0].Staging(ReportAnswer.answer1, 1, isMine[0]));
+        StartCoroutine(_staging[1].Staging(ReportAnswer.answer2, 2, isMine[1]));
         if (players.Length > 2)
         {
-            StartCoroutine(_staging[2].Staging(ReportAnswer.answer3, 3));
+            StartCoroutine(_staging[2].Staging(ReportAnswer.answer3, 3, isMine[2]));
         }
         if (players.Length > 3)
         {
-            StartCoroutine(_staging[3].Staging(ReportAnswer.answer4, 4));
+            StartCoroutine(_staging[3].Staging(ReportAnswer.answer4, 4, isMine[3]));
         }
         if (players.Length > 4)
         {
-            StartCoroutine(_staging[4].Staging(ReportAnswer.answer5, 5));
+            StartCoroutine(_staging[4].Staging(ReportAnswer.answer5, 5, isMine[4]));
         }
 
         while (!_staging[0].isFinishResult)
@@ -128,6 +136,8 @@ public class ResultController : MonoBehaviour
         CountdownImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
+        _audio.SE10();
+
         //カウントダウン
         for (int j = 0; j < 100; j++)
         {
@@ -137,6 +147,7 @@ public class ResultController : MonoBehaviour
 
         //部屋から退出し、シーンをリロードする
         Debug.Log("タイトルに戻ります");
+        _audio.ResetSE();
 
         //暗転などの演出あってもいい
 

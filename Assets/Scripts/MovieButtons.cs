@@ -5,6 +5,9 @@ using UnityEngine.Video;
 
 public class MovieButtons : MonoBehaviour
 {
+    [SerializeField]
+    private string relativePath;
+
     private VideoPlayer _videoPlayer;
 
     private bool play = true;
@@ -13,6 +16,16 @@ public class MovieButtons : MonoBehaviour
     void Start()
     {
         _videoPlayer = GetComponent<VideoPlayer>();
+        _videoPlayer.source = VideoSource.Url;
+        _videoPlayer.url = Application.streamingAssetsPath + "/" + relativePath;
+        _videoPlayer.prepareCompleted += PrepareCompleted;
+        _videoPlayer.Prepare();
+    }
+
+    void PrepareCompleted(VideoPlayer vp)
+    {
+        vp.prepareCompleted -= PrepareCompleted;
+        vp.Play();
     }
 
     public void PlayorStop()
