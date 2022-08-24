@@ -28,7 +28,17 @@ public class ButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointerDown
 
                 _audio.SE1();
                 break;
-            case 1:
+            case 1: //再生ボタン
+                transform.DOScale(0.95f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(0.8f, 0.24f).SetEase(Ease.OutCubic);
+
+                _audio.SE1();
+                break;
+            case 2: //一時停止・再生ボタン
+                transform.DOScale(0.95f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(0.8f, 0.24f).SetEase(Ease.OutCubic);
+
+                _audio.SE1();
                 break;
             default:
                 Debug.Log("ミス");
@@ -45,7 +55,17 @@ public class ButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointerDown
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 1:
+            case 1: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+
+                _canvasGroup.DOFade(0f, 1.5f).SetEase(Ease.OutCubic);
+
+                StartCoroutine(Wait());
+                break;
+            case 2: //一時停止・再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");
@@ -62,7 +82,17 @@ public class ButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointerDown
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 1:
+            case 1: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+
+                _canvasGroup.DOFade(0f, 1.5f).SetEase(Ease.OutCubic);
+
+                StartCoroutine(Wait());
+                break;
+            case 2: //一時停止・再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");
@@ -79,7 +109,13 @@ public class ButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointerDown
                 transform.DOScale(1.1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1.05f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 1:
+            case 1: //再生ボタン
+                transform.DOScale(1.2f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1.1f, 0.24f).SetEase(Ease.OutCubic);
+                break;
+            case 2: //一時停止・再生ボタン
+                transform.DOScale(1.3f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1.15f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");
@@ -96,11 +132,24 @@ public class ButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointerDown
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 1:
+            case 1: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                break;
+            case 2: //一時停止・再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");
                 break;
         }
+    }
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1.0f);
+        Debug.Log("1.0秒遅延しました");
+        this.gameObject.SetActive(false);
+        yield break;
     }
 }
