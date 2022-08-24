@@ -26,11 +26,13 @@ public class InformRoleDisplay : MonoBehaviourPunCallbacks
     private void Update()
     {
         if (DebugGameManager.Instance.GetCurrentState() != DebugGameManager.GameMode.MainGame) return;
-        if (MainGameController.mainmode != MainGameController.MainGameMode.InformRole) return;
-        if (!once)
+        if (MainGameController.mainmode == MainGameController.MainGameMode.ReportAnswer)
         {
-            once = true;
-            Setting();
+            if (!once)
+            {
+                once = true;
+                Setting();
+            }
         }
     }
 

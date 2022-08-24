@@ -331,6 +331,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         DebugGameManager.Instance.GoResult();
     }
 
+    //âÊñ ëJà⁄ââèo
     private int num = 0;
     private IEnumerator TransitionEffect()
     {
@@ -341,7 +342,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
             TransitionStateImage.fillAmount += 0.02f;
             yield return new WaitForSeconds(0.01f);
         }
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.3f);
         TransitionStateImage.fillAmount = 0;
         TransitionStateImage.gameObject.SetActive(false);
         TransitionStateImage.sprite = TransitionImage[num];

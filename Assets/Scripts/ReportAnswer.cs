@@ -312,7 +312,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             }
         }
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(8f);
         //各種リセット
         for(int j = 0; j < players.Length-1; j++)
         {
