@@ -12,6 +12,8 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
 
     public AudioManager _audio;//inspectorで設定する
 
+    private bool isDirect = false;//クリック時に一度カーソルが重なる部分を経由したかどうか
+
     private void Start()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
@@ -31,7 +33,15 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
             case 1:
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
-                transform.DORotate(new Vector3(0, 0, -240), 0.24f);
+                if (isDirect)
+                {
+                    transform.DORotate(new Vector3(0, 0, -120), 0.24f);
+                    transform.DORotate(new Vector3(0, 0, -240), 0.24f);
+                }
+                else
+                {
+                    transform.DORotate(new Vector3(0, 0, -240), 0.24f);
+                }
 
                 _audio.SE1();
                 break;
@@ -54,6 +64,7 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 transform.DORotate(new Vector3(0, 0, 360), 0.24f);
+                isDirect = true;
                 break;
             default:
                 Debug.Log("ミス");
@@ -94,6 +105,7 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1.05f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1.025f, 0.24f).SetEase(Ease.OutCubic);
                 transform.DORotate(new Vector3(0, 0, -120), 0.24f);
+                isDirect = false;
                 break;
             default:
                 Debug.Log("ミス");
