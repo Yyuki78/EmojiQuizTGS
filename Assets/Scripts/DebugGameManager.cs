@@ -118,8 +118,6 @@ public class DebugGameManager : MonoBehaviour
         ResultPanel.SetActive(false);
 
         _audio.StopBGM();
-
-        StartCoroutine(WaitMovie());
     }
 
     // RoomSelect‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—

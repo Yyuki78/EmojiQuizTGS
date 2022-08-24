@@ -26,6 +26,14 @@ public class MovieButtons : MonoBehaviour
     {
         vp.prepareCompleted -= PrepareCompleted;
         vp.Play();
+        _videoPlayer.loopPointReached += FinishPlayingVideo;
+    }
+
+    public void FinishPlayingVideo(VideoPlayer vp)
+    {
+        _videoPlayer.Stop();
+
+        DebugGameManager.Instance.SetCurrentState(DebugGameManager.GameMode.RoomSelect);
     }
 
     public void PlayorStop()
