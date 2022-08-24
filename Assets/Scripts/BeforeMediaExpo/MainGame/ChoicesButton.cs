@@ -58,13 +58,13 @@ public class ChoicesButton : MonoBehaviour
                 ChooseFlame.transform.localPosition = new Vector3(150, 125, 0);
                 break;
             case 3:
-                ChooseFlame.transform.localPosition = new Vector3(-300, -175, 0);
+                ChooseFlame.transform.localPosition = new Vector3(-300, -140, 0);
                 break;
             case 4:
-                ChooseFlame.transform.localPosition = new Vector3(0, -175, 0);
+                ChooseFlame.transform.localPosition = new Vector3(0, -140, 0);
                 break;
             case 5:
-                ChooseFlame.transform.localPosition = new Vector3(300, -175, 0);
+                ChooseFlame.transform.localPosition = new Vector3(300, -140, 0);
                 break;
             default:
                 Debug.Log("‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“‚ªˆá‚¢‚Ü‚·");
