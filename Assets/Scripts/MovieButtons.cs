@@ -10,12 +10,22 @@ public class MovieButtons : MonoBehaviour
 
     private VideoPlayer _videoPlayer;
 
+    private AudioSource _audio;
+
     private bool play = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        _audio = GetComponent<AudioSource>();
         _videoPlayer = GetComponent<VideoPlayer>();
+
+        _videoPlayer.audioOutputMode = VideoAudioOutputMode.AudioSource;
+
+        _videoPlayer.EnableAudioTrack(0, true);
+
+        _videoPlayer.SetTargetAudioSource(0, _audio);
+
         _videoPlayer.source = VideoSource.Url;
         _videoPlayer.url = Application.streamingAssetsPath + "/" + relativePath;
         _videoPlayer.prepareCompleted += PrepareCompleted;

@@ -109,8 +109,26 @@ public class StampController : MonoBehaviourPunCallbacks
         _image.DOFade(0.2f, 0.01f);
         PopUpStampEffect.gameObject.transform.DOScale(new Vector3(0.2f, 0.2f, 0.2f), 0.01f);
 
-        int rndX = Random.Range(-375, 375);
-        int rndY = Random.Range(-250, 250);
+        int rndX, rndY;
+        int isRight = Random.Range(0, 2);
+        if (isRight == 0)
+        {
+            rndX = Random.Range(-375, -150);
+        }
+        else
+        {
+            rndX = Random.Range(150, 375);
+        }
+
+        int isTop = Random.Range(0, 2);
+        if (isTop == 0)
+        {
+            rndY = Random.Range(-250, -100);
+        }
+        else
+        {
+            rndY = Random.Range(100, 250);
+        }
         PopUpStampEffect.gameObject.transform.localPosition = new Vector3(rndX, rndY, 0);
 
         PopUpStampEffect.gameObject.SetActive(true);
