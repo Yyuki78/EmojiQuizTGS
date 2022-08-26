@@ -64,26 +64,26 @@ public class ResultController : MonoBehaviour
         switch (players.Length)
         {
             case 2:
-                BarPos[0].transform.localPosition = new Vector3(0, -75, 0);
-                BarPos[1].transform.localPosition = new Vector3(0, -325, 0);
+                BarPos[0].transform.localPosition = new Vector3(0, -100, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -300, 0);
                 break;
             case 3:
-                BarPos[0].transform.localPosition = new Vector3(0, 0, 0);
+                BarPos[0].transform.localPosition = new Vector3(0, -50, 0);
                 BarPos[1].transform.localPosition = new Vector3(0, -200, 0);
-                BarPos[2].transform.localPosition = new Vector3(0, -400, 0);
+                BarPos[2].transform.localPosition = new Vector3(0, -350, 0);
                 break;
             case 4:
-                BarPos[0].transform.localPosition = new Vector3(0, 50, 0);
-                BarPos[1].transform.localPosition = new Vector3(0, -125, 0);
-                BarPos[2].transform.localPosition = new Vector3(0, -300, 0);
-                BarPos[3].transform.localPosition = new Vector3(0, -475, 0);
+                BarPos[0].transform.localPosition = new Vector3(0, -25, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -142, 0);
+                BarPos[2].transform.localPosition = new Vector3(0, -258, 0);
+                BarPos[3].transform.localPosition = new Vector3(0, -275, 0);
                 break;
             case 5:
-                BarPos[0].transform.localPosition = new Vector3(0, 100, 0);
-                BarPos[1].transform.localPosition = new Vector3(0, -50, 0);
+                BarPos[0].transform.localPosition = new Vector3(0, 0, 0);
+                BarPos[1].transform.localPosition = new Vector3(0, -100, 0);
                 BarPos[2].transform.localPosition = new Vector3(0, -200, 0);
-                BarPos[3].transform.localPosition = new Vector3(0, -350, 0);
-                BarPos[4].transform.localPosition = new Vector3(0, -500, 0);
+                BarPos[3].transform.localPosition = new Vector3(0, -300, 0);
+                BarPos[4].transform.localPosition = new Vector3(0, -400, 0);
                 break;
             default:
                 Debug.Log("éQâ¡é“ÇÃêîÇ™Ç®Ç©ÇµÇ¢Ç≈Ç∑");
