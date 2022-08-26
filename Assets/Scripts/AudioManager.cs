@@ -134,7 +134,7 @@ public class AudioManager : MonoBehaviour
     //タイトルに戻る際のカウントダウン演出
     public void SE10()
     {
-        se.pitch = 0.2f;
+        //se.pitch = 0.2f;
         se.volume = 0.2f;
         //se.PlayOneShot(se8);
     }
