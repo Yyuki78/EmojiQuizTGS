@@ -20,6 +20,8 @@ public class ResultController : MonoBehaviour
 
     [SerializeField] Image CountdownImage;//タイトルに戻る際のカウントダウン演出用
 
+    [SerializeField] GameObject ConfettisParticle;//紙吹雪
+
     private bool[] isMine = new bool[5];//自分のアイコンのバーかどうか ResultStagingに受け渡す
     private bool once = true;
 
@@ -41,6 +43,7 @@ public class ResultController : MonoBehaviour
         }
         CountdownImage.fillAmount = 0;
         CountdownImage.gameObject.SetActive(false);
+        ConfettisParticle.SetActive(false);
     }
 
     // Update is called once per frame
@@ -131,7 +134,9 @@ public class ResultController : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
+        ConfettisParticle.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
 
         CountdownImage.gameObject.SetActive(true);
 
