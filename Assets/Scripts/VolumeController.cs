@@ -16,10 +16,13 @@ public class VolumeController : MonoBehaviour
     [SerializeField] Sprite SoundImage;
     [SerializeField] Sprite muteSoundImage;
 
+    private MovieButtons _movie;
+
     // Start is called before the first frame update
     void Start()
     {
         _soundButtonImage = GetComponent<Image>();
+        _movie = GetComponentInParent<MovieButtons>();
         SetVolumeSlider.SetActive(false);
     }
 
@@ -42,6 +45,7 @@ public class VolumeController : MonoBehaviour
     public void SetMaster(float volume)
     {
         _audioMixer.SetFloat("MasterVol", volume);
+        _movie.ChangeVolume(volume);
         if (volume <= -40)
         {
             _audioMixer.SetFloat("MasterVol", -80);

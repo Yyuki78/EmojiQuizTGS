@@ -222,7 +222,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             //o‘èŽÒ‚Ì³‰ð•s³‰ð
             if (player == Qplayer)
             {
-                if (i >= (players.Length - 1) / 2f)
+                if ((i + 0.1f) >= (players.Length - 1) / 2f)
                 {
                     switch (k)
                     {
