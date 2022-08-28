@@ -9,6 +9,8 @@ using Photon.Realtime;
 
 public class StampController : MonoBehaviourPunCallbacks
 {
+    [SerializeField] bool isStartActive;
+
     // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
     [SerializeField] private EventSystem eventSystem;
     private GameObject button_ob;
@@ -44,6 +46,10 @@ public class StampController : MonoBehaviourPunCallbacks
             StampImage[i].color = new Color(1, 1, 1);
         }
         StampImage[8].gameObject.SetActive(false);
+        if (isStartActive)
+        {
+            StampPanel.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -113,21 +119,21 @@ public class StampController : MonoBehaviourPunCallbacks
         int isRight = Random.Range(0, 2);
         if (isRight == 0)
         {
-            rndX = Random.Range(-375, -150);
+            rndX = Random.Range(-450, -150);
         }
         else
         {
-            rndX = Random.Range(150, 375);
+            rndX = Random.Range(150, 450);
         }
 
         int isTop = Random.Range(0, 2);
         if (isTop == 0)
         {
-            rndY = Random.Range(-250, -100);
+            rndY = Random.Range(-320, -100);
         }
         else
         {
-            rndY = Random.Range(100, 250);
+            rndY = Random.Range(100, 320);
         }
         PopUpStampEffect.gameObject.transform.localPosition = new Vector3(rndX, rndY, 0);
 

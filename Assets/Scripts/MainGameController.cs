@@ -204,7 +204,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(TransitionEffect());
+        StartCoroutine(TransitionEffect2());
         yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -234,7 +234,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(14.5f);
         //yield return new WaitForSeconds(3f);
 
-        StartCoroutine(TransitionEffect());
+        StartCoroutine(TransitionEffect2());
         yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -268,7 +268,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         if (QuesitionNum == 6) yield break;
 
-        StartCoroutine(TransitionEffect());
+        StartCoroutine(TransitionEffect2());
         yield return new WaitForSeconds(1f);
 
         //éüÇÃñ‚ëËÇ÷
@@ -346,6 +346,32 @@ public class MainGameController : MonoBehaviourPunCallbacks
         TransitionStateImage.fillAmount = 0;
         TransitionStateImage.gameObject.SetActive(false);
         TransitionStateImage.sprite = TransitionImage[num];
+        num++;
+        if (num == 3) num = 0;
+        yield break;
+    }
+
+    //âÊñ ëJà⁄ââèo2
+    private IEnumerator TransitionEffect2()
+    {
+        TransitionStateImage.fillAmount = 0;
+        TransitionStateImage.gameObject.SetActive(true);
+        for (int i = 0; i < 25; i++)
+        {
+            TransitionStateImage.fillAmount += 0.04f;
+            yield return new WaitForSeconds(0.02f);
+        }
+        yield return new WaitForSeconds(0.3f);
+        TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+        for (int i = 0; i < 25; i++)
+        {
+            TransitionStateImage.fillAmount -= 0.04f;
+            yield return new WaitForSeconds(0.015f);
+        }
+        TransitionStateImage.fillAmount = 0;
+        TransitionStateImage.gameObject.SetActive(false);
+        TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+        //TransitionStateImage.sprite = TransitionImage[num];
         num++;
         if (num == 3) num = 0;
         yield break;

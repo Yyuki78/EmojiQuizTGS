@@ -20,6 +20,13 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
 
     private PhotonView _view;
 
+    private RoomList roomList = new RoomList();
+    private List<RoomButton> roomButtonList = new List<RoomButton>();
+
+    //Playerの人数
+    private int PlayerCount = 0;
+    [SerializeField] TextMeshProUGUI[] joinedMembersText = new TextMeshProUGUI[2];
+
     //音系
     [SerializeField] GameObject AudioManager;
     private AudioManager _audio;
@@ -244,9 +251,25 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
 
 
     // ルームリストに更新があった時
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    public override void OnRoomListUpdate(List<RoomInfo> changedRoomList)
     {
         Debug.Log("OnRoomListUpdate");
+
+        roomList.Update(changedRoomList);
+
+        // 全てのルーム参加ボタンの表示を更新する
+        foreach (var roomButton in roomButtonList)
+        {
+            if (roomList.TryGetRoomInfo(roomButton.RoomName, out var roomInfo))
+            {
+                joinedMembersText[PlayerCount].text = roomInfo.PlayerCount + "/5";
+            }
+            else
+            {
+                joinedMembersText[PlayerCount].text = "0/5";
+            }
+            PlayerCount++;
+        }
     }
 
 

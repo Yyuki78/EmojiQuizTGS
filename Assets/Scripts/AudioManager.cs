@@ -22,6 +22,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip se8;//バーが伸びる
     [SerializeField] private AudioClip se9;//画面遷移演出1
 
+    private void Start()
+    {
+        bgm.Play();
+    }
+
     //DebugGameManger+VideoManagerで使用
     public void BGM1()
     {
