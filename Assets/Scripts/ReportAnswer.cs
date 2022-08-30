@@ -90,16 +90,16 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         switch (ParticipantNum)
         {
             case 2:
-                SelectObjects[0].transform.localPosition = new Vector3(335, 0, 0);
+                SelectObjects[0].transform.localPosition = new Vector3(340, 0, 0);
                 break;
             case 3:
                 SelectObjects[0].transform.localPosition = new Vector3(110, 0, 0);
-                SelectObjects[1].transform.localPosition = new Vector3(330, 0, 0);
+                SelectObjects[1].transform.localPosition = new Vector3(325, 0, 0);
                 break;
             case 4:
-                SelectObjects[0].transform.localPosition = new Vector3(50, 0, 0);
-                SelectObjects[1].transform.localPosition = new Vector3(125, 0, 0);
-                SelectObjects[2].transform.localPosition = new Vector3(200, 0, 0);
+                SelectObjects[0].transform.localPosition = new Vector3(40, 0, 0);
+                SelectObjects[1].transform.localPosition = new Vector3(115, 0, 0);
+                SelectObjects[2].transform.localPosition = new Vector3(180, 0, 0);
                 break;
             case 5:
                 SelectObjects[0].transform.localPosition = new Vector3(0, 0, 0);
