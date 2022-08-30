@@ -39,6 +39,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
     [SerializeField] Image TransitionStateImage;//画面が切り替わる際の演出用画像
     [SerializeField] Sprite[] TransitionImage = new Sprite[3];
+    [SerializeField] Image TransitionStateBGImage;
+    [SerializeField] Sprite[] TransitionBGImage = new Sprite[3];
 
     private bool once = true;
     private bool isSendQuestion = false;
@@ -85,6 +87,8 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         TransitionStateImage.fillAmount = 0;
         TransitionStateImage.gameObject.SetActive(false);
+        TransitionStateBGImage.fillAmount = 0;
+        TransitionStateBGImage.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -204,7 +208,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(TransitionEffect2());
+        StartCoroutine(TransitionEffect3());
         yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -234,7 +238,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(14.5f);
         //yield return new WaitForSeconds(3f);
 
-        StartCoroutine(TransitionEffect2());
+        StartCoroutine(TransitionEffect3());
         yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -261,14 +265,14 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //マスターは問題数が6ならリザルトへ行かせる
         if (PhotonNetwork.IsMasterClient && QuesitionNum == 6)
         {
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.5f);
             _view.RPC(nameof(StartResult), RpcTarget.All);
         }
         yield return new WaitForSeconds(0.1f);
 
         if (QuesitionNum == 6) yield break;
 
-        StartCoroutine(TransitionEffect2());
+        StartCoroutine(TransitionEffect3());
         yield return new WaitForSeconds(1f);
 
         //次の問題へ
@@ -374,6 +378,49 @@ public class MainGameController : MonoBehaviourPunCallbacks
         //TransitionStateImage.sprite = TransitionImage[num];
         num++;
         if (num == 3) num = 0;
+        yield break;
+    }
+
+    //画面遷移演出3
+    private IEnumerator TransitionEffect3()
+    {
+        num++;
+        if (num == 3) num = 0;
+
+        TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+        TransitionStateImage.fillAmount = 1f;
+        TransitionStateImage.color = new Color(1, 1, 1, 0);
+        TransitionStateImage.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.01f);
+        TransitionStateBGImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+        TransitionStateBGImage.fillAmount = 1f;
+        TransitionStateBGImage.color = new Color(1, 1, 1, 0);
+        TransitionStateBGImage.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.01f);
+
+        TransitionStateImage.sprite = TransitionImage[num];
+        TransitionStateBGImage.sprite = TransitionBGImage[num];
+
+        for (int i = 0; i < 25; i++)
+        {
+            TransitionStateImage.color += new Color(0, 0, 0, 0.04f);
+            TransitionStateBGImage.color += new Color(0, 0, 0, 0.04f);
+            yield return new WaitForSeconds(0.02f);
+        }
+        yield return new WaitForSeconds(0.3f);
+        for (int i = 0; i < 25; i++)
+        {
+            TransitionStateImage.color -= new Color(0, 0, 0, 0.04f);
+            TransitionStateBGImage.color -= new Color(0, 0, 0, 0.04f);
+            yield return new WaitForSeconds(0.015f);
+        }
+        TransitionStateImage.color = new Color(1, 1, 1, 0);
+        TransitionStateBGImage.color = new Color(1, 1, 1, 0);
+        TransitionStateBGImage.fillAmount = 1;
+        TransitionStateImage.gameObject.SetActive(false);
+        TransitionStateBGImage.fillAmount = 0;
+        TransitionStateBGImage.gameObject.SetActive(false);
+
         yield break;
     }
 }

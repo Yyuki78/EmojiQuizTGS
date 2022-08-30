@@ -79,7 +79,7 @@ public class ResultController : MonoBehaviour
                 BarPos[0].transform.localPosition = new Vector3(0, -25, 0);
                 BarPos[1].transform.localPosition = new Vector3(0, -142, 0);
                 BarPos[2].transform.localPosition = new Vector3(0, -258, 0);
-                BarPos[3].transform.localPosition = new Vector3(0, -275, 0);
+                BarPos[3].transform.localPosition = new Vector3(0, -375, 0);
                 break;
             case 5:
                 BarPos[0].transform.localPosition = new Vector3(0, 0, 0);
@@ -140,7 +140,7 @@ public class ResultController : MonoBehaviour
 
         CountdownImage.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         _audio.SE10();
 
         //カウントダウン

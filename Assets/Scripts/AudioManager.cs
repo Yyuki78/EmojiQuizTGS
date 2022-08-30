@@ -24,10 +24,11 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        bgm.clip = bgm1;
         bgm.Play();
     }
 
-    //DebugGameManger+VideoManagerで使用
+    //DebugGameMangerで使用
     public void BGM1()
     {
         bgm.volume = 0.2f;
@@ -37,8 +38,9 @@ public class AudioManager : MonoBehaviour
     //DebugGameMangerで使用
     public void BGM2()
     {
+        bgm.clip = bgm2;
         bgm.volume = 0.05f;
-        bgm.PlayOneShot(bgm2);
+        bgm.Play();
     }
 
     //MainGameControllerで使用
