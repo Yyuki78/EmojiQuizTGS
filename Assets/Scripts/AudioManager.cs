@@ -22,17 +22,29 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip se8;//バーが伸びる
     [SerializeField] private AudioClip se9;//画面遷移演出1
 
+    private bool once = true;
+
     private void Start()
     {
-        bgm.clip = bgm1;
-        bgm.Play();
+        
+    }
+
+    //プレイヤーが画面にフォーカスした
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (once)
+        {
+            once = false;
+            BGM1();
+        }
     }
 
     //DebugGameMangerで使用
     public void BGM1()
     {
+        bgm.clip = bgm1;
         bgm.volume = 0.2f;
-        bgm.PlayOneShot(bgm1);
+        bgm.Play();
     }
 
     //DebugGameMangerで使用

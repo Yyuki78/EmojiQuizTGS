@@ -90,7 +90,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         switch (ParticipantNum)
         {
             case 2:
-                SelectObjects[0].transform.localPosition = new Vector3(340, 0, 0);
+                SelectObjects[0].transform.localPosition = new Vector3(325, 0, 0);
                 break;
             case 3:
                 SelectObjects[0].transform.localPosition = new Vector3(110, 0, 0);
@@ -211,6 +211,20 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
 
             k++;
         }
+
+        //o‘èÒ‚Ì³‰ğ•s³‰ğ
+        if (PhotonNetwork.LocalPlayer == Qplayer)
+        {
+            if ((i + 0.1f) >= (players.Length - 1) / 2f)
+            {
+                _audio.SE4();
+            }
+            else
+            {
+                _audio.SE5();
+            }
+        }
+        yield return new WaitForSeconds(0.01f);
 
         //³‰ğ•s³‰ğ‚ğŠi”[
         k = 0;

@@ -9,14 +9,12 @@ using Photon.Realtime;
 
 public class StampController : MonoBehaviourPunCallbacks
 {
-    [SerializeField] bool isStartActive;
-
     // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
     [SerializeField] private EventSystem eventSystem;
     private GameObject button_ob;
 
     [SerializeField] GameObject StampPanel;
-    private bool isActive = false;
+    public static bool isActive = false; //二回使用するので表示非表示を引き継ぐ
 
     //最初の一個はパネル 最後の一個は選択できなくするためのパネル
     private Image[] StampImage = new Image[9];
@@ -46,7 +44,7 @@ public class StampController : MonoBehaviourPunCallbacks
             StampImage[i].color = new Color(1, 1, 1);
         }
         StampImage[8].gameObject.SetActive(false);
-        if (isStartActive)
+        if (isActive)
         {
             StampPanel.gameObject.SetActive(true);
         }
@@ -129,7 +127,7 @@ public class StampController : MonoBehaviourPunCallbacks
         int isTop = Random.Range(0, 2);
         if (isTop == 0)
         {
-            rndY = Random.Range(-320, -100);
+            rndY = Random.Range(-250, -100);
         }
         else
         {
