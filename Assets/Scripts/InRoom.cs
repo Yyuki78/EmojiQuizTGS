@@ -23,6 +23,8 @@ public class InRoom : MonoBehaviourPunCallbacks
     private bool isFlashing = false;
     private bool plus = false;
 
+    [SerializeField] Image StartPanel;//黒い画面から元に戻るためのPanel
+
     // eventSystem型の変数を宣言　インスペクターにEventSystemをアタッチして取得しておく
     [SerializeField] private EventSystem eventSystem;
 
@@ -50,6 +52,7 @@ public class InRoom : MonoBehaviourPunCallbacks
     {
         _view = GetComponent<PhotonView>();
         _audio = AudioManager.GetComponent<AudioManager>();
+        StartPanel.gameObject.SetActive(true);
         noSelectPanel.SetActive(true);
         myCheckMarkImage.SetActive(false);
         for(int i = 0; i < 4; i++)
@@ -65,6 +68,7 @@ public class InRoom : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.SetScore(10);
 
+        StartCoroutine(StartEffect());
         //StartCoroutine(ShareIconInfo());
         StartCoroutine(SharePlayerInfo());
     }
@@ -360,5 +364,16 @@ public class InRoom : MonoBehaviourPunCallbacks
             }
             i++;
         }
+    }
+
+    private IEnumerator StartEffect()
+    {
+        for(int i = 0; i < 50; i++)
+        {
+            StartPanel.color -= new Color(0, 0, 0, 0.02f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        StartPanel.gameObject.SetActive(false);
+        yield break;
     }
 }

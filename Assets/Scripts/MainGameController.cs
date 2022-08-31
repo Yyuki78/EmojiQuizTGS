@@ -162,14 +162,14 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.1f);
 
         //役割に応じた画面表示(アイコンの位置の設定)
-        if (Questioner)
+        /*if (Questioner)
         {
             QuestionerText.SetActive(true);
         }
         if (Answerer)
         {
             AnswererText.SetActive(true);
-        }
+        }*/
         StartCoroutine(_inform.showIcon(Players[(QuesitionNum - 1) % ParticipantsNum]));
         yield return new WaitForSeconds(0.1f);
 
@@ -208,7 +208,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(TransitionEffect3());
+        StartCoroutine(TransitionEffect4());
         yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -238,7 +238,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(14.5f);
         //yield return new WaitForSeconds(3f);
 
-        StartCoroutine(TransitionEffect3());
+        StartCoroutine(TransitionEffect4());
         yield return new WaitForSeconds(1f);
 
         if (PhotonNetwork.IsMasterClient)
@@ -272,7 +272,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
 
         if (QuesitionNum == 6) yield break;
 
-        StartCoroutine(TransitionEffect3());
+        StartCoroutine(TransitionEffect4());
         yield return new WaitForSeconds(1f);
 
         //次の問題へ
@@ -387,26 +387,38 @@ public class MainGameController : MonoBehaviourPunCallbacks
         num++;
         if (num == 3) num = 0;
 
-        TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+        /*TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
         TransitionStateImage.fillAmount = 1f;
-        TransitionStateImage.color = new Color(1, 1, 1, 0);
+        TransitionStateImage.color = new Color(1, 1, 1, 0);*/
         TransitionStateImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.01f);
-        TransitionStateBGImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+        /*TransitionStateBGImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
         TransitionStateBGImage.fillAmount = 1f;
-        TransitionStateBGImage.color = new Color(1, 1, 1, 0);
+        TransitionStateBGImage.color = new Color(1, 1, 1, 0);*/
         TransitionStateBGImage.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.01f);
 
         TransitionStateImage.sprite = TransitionImage[num];
         TransitionStateBGImage.sprite = TransitionBGImage[num];
-
+        /*
         for (int i = 0; i < 25; i++)
         {
             TransitionStateImage.color += new Color(0, 0, 0, 0.04f);
             TransitionStateBGImage.color += new Color(0, 0, 0, 0.04f);
             yield return new WaitForSeconds(0.02f);
+        }*/
+        TransitionStateImage.fillAmount = 0;
+        TransitionStateBGImage.fillAmount = 0;
+        TransitionStateImage.color = new Color(1, 1, 1, 1);
+        TransitionStateBGImage.color = new Color(1, 1, 1, 1);
+        for (int i = 0; i < 25; i++)
+        {
+            TransitionStateImage.fillAmount += 0.04f;
+            TransitionStateBGImage.fillAmount += 0.04f;
+            yield return new WaitForSeconds(0.02f);
         }
+        TransitionStateImage.fillAmount = 1;
+        TransitionStateBGImage.fillAmount = 1;
         yield return new WaitForSeconds(0.3f);
         for (int i = 0; i < 25; i++)
         {
@@ -419,6 +431,106 @@ public class MainGameController : MonoBehaviourPunCallbacks
         TransitionStateBGImage.fillAmount = 1;
         TransitionStateImage.gameObject.SetActive(false);
         TransitionStateBGImage.fillAmount = 0;
+        TransitionStateBGImage.gameObject.SetActive(false);
+
+        yield break;
+    }
+
+    //画面遷移演出4
+    private IEnumerator TransitionEffect4()
+    {
+        num++;
+        if (num == 3) num = 0;
+
+        switch (num)
+        {
+            case 0:
+                TransitionStateImage.color = new Color(1, 1, 1, 0);
+                TransitionStateBGImage.color = new Color(1, 1, 1, 0);
+                TransitionStateImage.fillAmount = 1f;
+                TransitionStateBGImage.fillAmount = 1f;
+                break;
+            case 1:
+                TransitionStateImage.color = new Color(1, 1, 1, 0);
+                TransitionStateBGImage.color = new Color(1, 1, 1, 0);
+                TransitionStateImage.fillAmount = 1f;
+                TransitionStateBGImage.fillAmount = 1f;
+                TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+                TransitionStateBGImage.gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
+                break;
+            case 2:
+                TransitionStateImage.color = new Color(1, 1, 1, 1);
+                TransitionStateBGImage.color = new Color(1, 1, 1, 1);
+                TransitionStateImage.fillAmount = 0;
+                TransitionStateBGImage.fillAmount = 0;
+                TransitionStateImage.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                TransitionStateBGImage.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+                break;
+            default:
+                Debug.Log("画面遷移演出ミス");
+                break;
+        }
+        yield return new WaitForSeconds(0.01f);
+
+        TransitionStateImage.sprite = TransitionImage[num];
+        TransitionStateBGImage.sprite = TransitionBGImage[num];
+
+        TransitionStateImage.gameObject.SetActive(true);
+        TransitionStateBGImage.gameObject.SetActive(true);
+
+        switch (num)
+        {
+            case 0:
+                for (int i = 0; i < 25; i++)
+                {
+                    TransitionStateImage.color += new Color(0, 0, 0, 0.04f);
+                    TransitionStateBGImage.color += new Color(0, 0, 0, 0.04f);
+                    yield return new WaitForSeconds(0.02f);
+                }
+                yield return new WaitForSeconds(0.3f);
+                for (int i = 0; i < 25; i++)
+                {
+                    TransitionStateImage.color -= new Color(0, 0, 0, 0.04f);
+                    TransitionStateBGImage.color -= new Color(0, 0, 0, 0.04f);
+                    yield return new WaitForSeconds(0.015f);
+                }
+                break;
+            case 1:
+                for (int i = 0; i < 25; i++)
+                {
+                    TransitionStateImage.color += new Color(0, 0, 0, 0.04f);
+                    TransitionStateBGImage.color += new Color(0, 0, 0, 0.04f);
+                    yield return new WaitForSeconds(0.02f);
+                }
+                yield return new WaitForSeconds(0.3f);
+                for (int i = 0; i < 25; i++)
+                {
+                    TransitionStateImage.fillAmount -= 0.04f;
+                    TransitionStateBGImage.fillAmount -= 0.04f;
+                    yield return new WaitForSeconds(0.02f);
+                }
+                break;
+            case 2:
+                for (int i = 0; i < 25; i++)
+                {
+                    TransitionStateImage.fillAmount += 0.04f;
+                    TransitionStateBGImage.fillAmount += 0.04f;
+                    yield return new WaitForSeconds(0.02f);
+                }
+                yield return new WaitForSeconds(0.3f);
+                for (int i = 0; i < 25; i++)
+                {
+                    TransitionStateImage.color -= new Color(0, 0, 0, 0.04f);
+                    TransitionStateBGImage.color -= new Color(0, 0, 0, 0.04f);
+                    yield return new WaitForSeconds(0.015f);
+                }
+                break;
+            default:
+                Debug.Log("画面遷移演出ミス");
+                break;
+        }
+
+        TransitionStateImage.gameObject.SetActive(false);
         TransitionStateBGImage.gameObject.SetActive(false);
 
         yield break;

@@ -24,6 +24,9 @@ public class ChoicesButton : MonoBehaviour
     //選択したことが分かる枠画像
     [SerializeField] GameObject ChooseFlame;
 
+    //選択したボタンを押せなくする画像
+    [SerializeField] GameObject DontPushButtonImage;
+
     //選択した・されていないボタン画像
     [SerializeField] Sprite ButtonImage;
     [SerializeField] Sprite pushButtonImage;
@@ -102,7 +105,30 @@ public class ChoicesButton : MonoBehaviour
                 }
 
                 buttonImages[int.Parse(button_ob.name) - 1].sprite = pushButtonImage;
-                choiceImages[int.Parse(button_ob.name) - 1].localPosition = new Vector3(-5, 3, 0);
+                choiceImages[int.Parse(button_ob.name) - 1].localPosition = new Vector3(-6, -2, 0);
+
+                switch (int.Parse(button_ob.name))
+                {
+                    case 1:
+                        DontPushButtonImage.transform.localPosition = new Vector3(-150, 125, 0);
+                        break;
+                    case 2:
+                        DontPushButtonImage.transform.localPosition = new Vector3(150, 125, 0);
+                        break;
+                    case 3:
+                        DontPushButtonImage.transform.localPosition = new Vector3(-300, -140, 0);
+                        break;
+                    case 4:
+                        DontPushButtonImage.transform.localPosition = new Vector3(0, -140, 0);
+                        break;
+                    case 5:
+                        DontPushButtonImage.transform.localPosition = new Vector3(300, -140, 0);
+                        break;
+                    default:
+                        Debug.Log("押されたボタンが違います");
+                        break;
+                }
+                DontPushButtonImage.SetActive(true);
 
                 break;
             default:
@@ -124,6 +150,7 @@ public class ChoicesButton : MonoBehaviour
                     buttonImages[i].sprite = ButtonImage;
                     choiceImages[i].localPosition = new Vector3(5.7f, 11f, 0);
                 }
+                DontPushButtonImage.SetActive(false);
                 break;
             default:
                 Debug.Log("ButtonModeが違います");
