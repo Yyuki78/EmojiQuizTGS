@@ -22,6 +22,9 @@ public class ResultController : MonoBehaviour
 
     [SerializeField] GameObject ConfettisParticle;//紙吹雪
 
+    [SerializeField] Image FinishRoom;//最後の家
+    [SerializeField] GameObject DoorMassObj;//最後に閉めるドア
+
     private bool[] isMine = new bool[5];//自分のアイコンのバーかどうか ResultStagingに受け渡す
     private bool once = true;
 
@@ -44,6 +47,8 @@ public class ResultController : MonoBehaviour
         CountdownImage.fillAmount = 0;
         CountdownImage.gameObject.SetActive(false);
         ConfettisParticle.SetActive(false);
+        FinishRoom.gameObject.SetActive(true);
+        DoorMassObj.SetActive(true);
     }
 
     // Update is called once per frame
@@ -155,6 +160,17 @@ public class ResultController : MonoBehaviour
         _audio.ResetSE();
 
         //暗転などの演出あってもいい
+        for (int j = 0; j < 75; j++)
+        {
+            this.gameObject.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+        for (int j = 0; j < 90; j++)
+        {
+            this.gameObject.transform.localScale -= new Vector3(0.002f, 0.002f, 0);
+            DoorMassObj.transform.localEulerAngles += new Vector3(0, 1, 0);
+            yield return new WaitForSeconds(0.02f);
+        }
 
         //準備完了をリセット
         PhotonNetwork.LocalPlayer.SetReady(false);

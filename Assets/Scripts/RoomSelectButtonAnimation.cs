@@ -63,9 +63,11 @@ public class RoomSelectButtonAnimation : MonoBehaviour, IPointerClickHandler, IP
         {
             case 0:
                 DoorMassObj[ButtonMode].transform.localEulerAngles = new Vector3(0, -30, 0);
+                this.GetComponent<RoomSelectButtonAnimation>().enabled = false;
                 break;
             case 1:
                 DoorMassObj[ButtonMode].transform.localEulerAngles = new Vector3(0, -30, 0);
+                this.GetComponent<RoomSelectButtonAnimation>().enabled = false;
                 break;
             default:
                 Debug.Log("É~ÉX");
