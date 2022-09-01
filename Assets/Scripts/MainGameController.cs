@@ -507,7 +507,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 {
                     TransitionStateImage.fillAmount -= 0.04f;
                     TransitionStateBGImage.fillAmount -= 0.04f;
-                    yield return new WaitForSeconds(0.02f);
+                    yield return new WaitForSeconds(0.015f);
                 }
                 break;
             case 2:
