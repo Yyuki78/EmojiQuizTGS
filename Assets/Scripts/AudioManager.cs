@@ -21,6 +21,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip se7;//ドアガチャガチャ
     [SerializeField] private AudioClip se8;//バーが伸びる
     [SerializeField] private AudioClip se9;//画面遷移演出1
+    [SerializeField] private AudioClip se10;//画面遷移演出2
+    [SerializeField] private AudioClip se11;//ドアの開く音
 
     private bool once = true;
 
@@ -32,7 +34,7 @@ public class AudioManager : MonoBehaviour
     //プレイヤーが画面にフォーカスした
     void OnApplicationFocus(bool hasFocus)
     {
-        if (once)
+        if (once && !bgm.isPlaying)
         {
             once = false;
             BGM1();
@@ -150,12 +152,19 @@ public class AudioManager : MonoBehaviour
         yield break;
     }
 
-    //タイトルに戻る際のカウントダウン演出
+    //画面遷移演出2
     public void SE10()
     {
-        //se.pitch = 0.2f;
+        se.pitch = 1.0f;
         se.volume = 0.2f;
-        //se.PlayOneShot(se8);
+        se.PlayOneShot(se10);
+    }
+
+    //部屋に入る時のドアが開く音 RoomSelectButtonAnimationで使用
+    public void SE11()
+    {
+        se.volume = 0.4f;
+        se.PlayOneShot(se11);
     }
 
     //SEのリセット

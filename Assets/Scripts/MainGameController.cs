@@ -503,14 +503,17 @@ public class MainGameController : MonoBehaviourPunCallbacks
                     yield return new WaitForSeconds(0.02f);
                 }
                 yield return new WaitForSeconds(0.3f);
+                _audio.SE10();
                 for (int i = 0; i < 25; i++)
                 {
                     TransitionStateImage.fillAmount -= 0.04f;
                     TransitionStateBGImage.fillAmount -= 0.04f;
                     yield return new WaitForSeconds(0.015f);
                 }
+                _audio.ResetSE();
                 break;
             case 2:
+                _audio.SE10();
                 for (int i = 0; i < 25; i++)
                 {
                     TransitionStateImage.fillAmount += 0.04f;
@@ -524,6 +527,7 @@ public class MainGameController : MonoBehaviourPunCallbacks
                     TransitionStateBGImage.color -= new Color(0, 0, 0, 0.04f);
                     yield return new WaitForSeconds(0.015f);
                 }
+                _audio.ResetSE();
                 break;
             default:
                 Debug.Log("‰æ–Ê‘JˆÚ‰‰oƒ~ƒX");
