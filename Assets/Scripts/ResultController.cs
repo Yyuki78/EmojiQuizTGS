@@ -24,6 +24,7 @@ public class ResultController : MonoBehaviour
 
     [SerializeField] Image FinishRoom;//最後の家
     [SerializeField] GameObject DoorMassObj;//最後に閉めるドア
+    [SerializeField] Image BlackOutPanel;//最後に暗転するパネル
 
     private bool[] isMine = new bool[5];//自分のアイコンのバーかどうか ResultStagingに受け渡す
     private bool once = true;
@@ -49,6 +50,7 @@ public class ResultController : MonoBehaviour
         ConfettisParticle.SetActive(false);
         FinishRoom.gameObject.SetActive(true);
         DoorMassObj.SetActive(true);
+        BlackOutPanel.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -146,7 +148,7 @@ public class ResultController : MonoBehaviour
         CountdownImage.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(2f);
-        _audio.SE10();
+        //_audio.SE10();
 
         //カウントダウン
         for (int j = 0; j < 100; j++)
@@ -159,7 +161,8 @@ public class ResultController : MonoBehaviour
         Debug.Log("タイトルに戻ります");
         _audio.ResetSE();
 
-        //暗転などの演出あってもいい
+        /*
+        //ドアが閉まる演出あってもいい なくなりました
         for (int j = 0; j < 75; j++)
         {
             this.gameObject.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
@@ -170,7 +173,16 @@ public class ResultController : MonoBehaviour
             this.gameObject.transform.localScale -= new Vector3(0.002f, 0.002f, 0);
             DoorMassObj.transform.localEulerAngles += new Vector3(0, 1, 0);
             yield return new WaitForSeconds(0.02f);
+        }*/
+
+        //暗転
+        BlackOutPanel.gameObject.SetActive(true);
+        for (int j = 0; j < 50; j++)
+        {
+            BlackOutPanel.color += new Color(0, 0, 0, 0.02f);
+            yield return new WaitForSeconds(0.015f);
         }
+        yield return new WaitForSeconds(0.2f);
 
         //準備完了をリセット
         PhotonNetwork.LocalPlayer.SetReady(false);

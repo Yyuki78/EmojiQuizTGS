@@ -6,7 +6,12 @@ using UnityEngine.UI;
 
 public class VolumeController : MonoBehaviour
 {
+    [SerializeField] int ButtonMode = 0;//0でMovieの場所 1でInRoomの場所
+
+    public static float Volume = 0;
+
     [SerializeField] GameObject SetVolumeSlider;
+    private Slider _slider;
     private bool isActive = false;
 
     [SerializeField]
@@ -21,9 +26,15 @@ public class VolumeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _slider = SetVolumeSlider.GetComponent<Slider>();
         _soundButtonImage = GetComponent<Image>();
-        _movie = GetComponentInParent<MovieButtons>();
+        if (ButtonMode == 0)
+        {
+            _movie = GetComponentInParent<MovieButtons>();
+        }
         SetVolumeSlider.SetActive(false);
+        SetMaster(Volume);
+        _slider.value = Volume;
     }
 
     //音量ボタンに付ける
@@ -44,8 +55,12 @@ public class VolumeController : MonoBehaviour
     //スライダーに付ける
     public void SetMaster(float volume)
     {
+        Volume = volume;
         _audioMixer.SetFloat("MasterVol", volume);
-        _movie.ChangeVolume(volume);
+        if (ButtonMode == 0)
+        {
+            _movie.ChangeVolume(volume);
+        }
         if (volume <= -40)
         {
             _audioMixer.SetFloat("MasterVol", -80);
