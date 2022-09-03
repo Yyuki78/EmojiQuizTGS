@@ -18,6 +18,18 @@ public class RoomSelect : MonoBehaviour
         BlackOutPanel.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (_matching.failJoinRoom)
+        {
+            StopAllCoroutines();
+            DoorMassObj[0].transform.localEulerAngles = new Vector3(0, 0, 0);
+            PanelMassObj[0].transform.localScale = new Vector3(1, 1, 1);
+            BlackOutPanel.color = new Color(0, 0, 0, 0);
+            _matching.failJoinRoom = false;
+        }
+    }
+
     public void OnClickRoom1()
     {
         StartCoroutine(GoRoomEffect(1));
@@ -30,6 +42,23 @@ public class RoomSelect : MonoBehaviour
 
     private IEnumerator GoRoomEffect(int num)
     {
+        //部屋に入る
+        switch (num)
+        {
+            case 1:
+                _matching.JoinOrCreateRoom1();
+                break;
+            case 2:
+                _matching.JoinOrCreateRoom2();
+                break;
+            default:
+                Debug.Log(num + "がおかしいです");
+                break;
+        }
+        yield return new WaitForSeconds(0.1f);
+
+        if (_matching.failJoinRoom) yield break;
+
         //ドアが開く＋画面がそこに寄る(pivotを変更してScaleを拡大する)
         this.gameObject.transform.parent = PanelMassObj[num - 1].transform;
         BlackOutPanel.gameObject.SetActive(true);
@@ -50,19 +79,9 @@ public class RoomSelect : MonoBehaviour
         }
         BlackOutPanel.color = new Color(0, 0, 0, 1);
 
-        //部屋に入る
-        switch (num)
-        {
-            case 1:
-                _matching.JoinOrCreateRoom1();
-                break;
-            case 2:
-                _matching.JoinOrCreateRoom2();
-                break;
-            default:
-                Debug.Log(num + "がおかしいです");
-                break;
-        }
+        //ステートをInRoomに変更
+        DebugGameManager.Instance.SetCurrentState(DebugGameManager.GameMode.InRoom);
+
 
         yield break;
     }
