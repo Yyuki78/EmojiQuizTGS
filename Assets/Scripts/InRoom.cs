@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class InRoom : MonoBehaviourPunCallbacks
 {
@@ -43,6 +44,8 @@ public class InRoom : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject[] alreadySelectIconImages = new GameObject[6];//既に選択されたアイコンを隠す用
 
+    [SerializeField] GameObject[] countDownImages = new GameObject[5];//カウントダウン用
+
     //音系
     [SerializeField] GameObject AudioManager;
     private AudioManager _audio;
@@ -67,6 +70,13 @@ public class InRoom : MonoBehaviourPunCallbacks
         isFlashingIcon = true;
 
         PhotonNetwork.LocalPlayer.SetScore(10);
+
+        for(int i = 0; i < 4; i++)
+        {
+            countDownImages[i].transform.DOScale(0f, 0.01f);
+            countDownImages[i].SetActive(false);
+        }
+        countDownImages[4].SetActive(false);
 
         StartCoroutine(StartEffect());
         //StartCoroutine(ShareIconInfo());
@@ -160,11 +170,33 @@ public class InRoom : MonoBehaviourPunCallbacks
     private IEnumerator CountDown()
     {
         //カウントダウン
+        countDownImages[0].SetActive(true);
+        countDownImages[0].transform.DOScale(1f, 0.25f);
+        yield return new WaitForSeconds(0.25f);
+
+        yield return new WaitForSeconds(0.5f);
+        countDownImages[1].SetActive(true);
+        countDownImages[1].transform.DOScale(1.2f, 0.35f);
+        yield return new WaitForSeconds(0.35f);
+        countDownImages[1].transform.DOScale(1f, 0.15f);
         Debug.Log("3");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("2");
-        yield return new WaitForSeconds(1f);
-        Debug.Log("1");
+        yield return new WaitForSeconds(0.15f);
+
+        yield return new WaitForSeconds(0.5f);
+        countDownImages[2].SetActive(true);
+        countDownImages[2].transform.DOScale(1.2f, 0.35f);
+        yield return new WaitForSeconds(0.35f);
+        countDownImages[2].transform.DOScale(1f, 0.15f);
+        Debug.Log("3");
+        yield return new WaitForSeconds(0.15f);
+
+        yield return new WaitForSeconds(0.5f);
+        countDownImages[3].SetActive(true);
+        countDownImages[3].transform.DOScale(1.2f, 0.35f);
+        yield return new WaitForSeconds(0.35f);
+        countDownImages[3].transform.DOScale(1f, 0.15f);
+        Debug.Log("3");
+        yield return new WaitForSeconds(0.15f);
 
         var players = PhotonNetwork.PlayerList;
         yield return new WaitForSeconds(0.01f);
@@ -180,9 +212,14 @@ public class InRoom : MonoBehaviourPunCallbacks
             i++;
         }
 
-        yield return new WaitForSeconds(1f);
         Debug.Log("ゲームスタート！");
-        DebugGameManager.Instance.SetCurrentState(DebugGameManager.GameMode.MainGame);
+
+        yield return new WaitForSeconds(0.2f);
+        countDownImages[4].SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+
+        DebugGameManager.Instance.GoMainGame();
+        
         yield break;
     }
 

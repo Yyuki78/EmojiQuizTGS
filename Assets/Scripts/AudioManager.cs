@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
     //プレイヤーが画面にフォーカスした
     void OnApplicationFocus(bool hasFocus)
     {
-        if (once && !bgm.isPlaying)
+        if (once && !bgm.isPlaying && DebugGameManager.Instance.GetCurrentState() == DebugGameManager.GameMode.Start)
         {
             once = false;
             BGM1();

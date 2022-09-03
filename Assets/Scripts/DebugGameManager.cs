@@ -55,6 +55,12 @@ public class DebugGameManager : MonoBehaviour
         OnGameStateChanged(currentGameState);
     }
 
+    //メインゲーム移行時に使用
+    public void GoMainGame()
+    {
+        StartCoroutine(TransitionMainGame());
+    }
+
     //リザルト移行時に使用
     public void GoResult()
     {
@@ -165,6 +171,36 @@ public class DebugGameManager : MonoBehaviour
     void ResultAction()
     {
         Debug.Log("ResultMode");
+    }
+
+    private IEnumerator TransitionMainGame()
+    {
+        TransitionImage.transform.localPosition = new Vector3(1350, 0, 0);
+        TransitionImage.SetActive(true);
+
+        _audio.StopBGM();
+        
+        _audio.SE9();
+
+        for (int i = 0; i < 54; i++)
+        {
+            TransitionImage.transform.localPosition -= new Vector3(25, 0, 0);
+            yield return new WaitForSeconds(0.015f);
+        }
+
+        SetCurrentState(DebugGameManager.GameMode.MainGame);
+        _audio.ResetSE();
+
+        for (int i = 0; i < 54; i++)
+        {
+            TransitionImage.transform.localPosition -= new Vector3(25, 0, 0);
+            yield return new WaitForSeconds(0.015f);
+        }
+
+        yield return new WaitForSeconds(0.2f);
+        TransitionImage.SetActive(false);
+
+        yield break;
     }
 
     private IEnumerator TransitionResult()
