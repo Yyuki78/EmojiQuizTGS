@@ -27,6 +27,9 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     private int PlayerCount = 0;
     [SerializeField] TextMeshProUGUI[] joinedMembersText = new TextMeshProUGUI[2];
 
+    //入室失敗時のbool
+    public bool failJoinRoom = false;
+
     //音系
     [SerializeField] GameObject AudioManager;
     private AudioManager _audio;
@@ -188,10 +191,6 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
         //プレーヤーのカスタムプロパティ更新
         SetMyCustomProperties();
 
-        //ステートをInRoomに変更
-        DebugGameManager.Instance.SetCurrentState(DebugGameManager.GameMode.InRoom);
-
-
         /*
         // 部屋の情報を表示
         if (PhotonNetwork.InRoom)
@@ -208,6 +207,8 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
     // 特定の部屋への入室に失敗した時
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
+        failJoinRoom = true;
+
         _audio.SE7();
         Debug.Log("OnJoinRoomFailed");
 
