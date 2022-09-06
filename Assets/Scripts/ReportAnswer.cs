@@ -80,7 +80,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
         }
 
         yield return new WaitForSeconds(0.1f);
-        CorrectImage.sprite = null;
+        CorrectImage.sprite = Resources.Load<Sprite>("Image/129");
         CorrectImage.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
     }
@@ -346,7 +346,7 @@ public class ReportAnswer : MonoBehaviourPunCallbacks
             inCorrect[j].gameObject.SetActive(false);
             yield return new WaitForSeconds(0.1f);
         }
-        CorrectImage.sprite = null;
+        CorrectImage.sprite = Resources.Load<Sprite>("Image/129");
         CorrectImage.gameObject.SetActive(false);
 
         yield break;

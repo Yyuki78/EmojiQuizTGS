@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip bgm2;//部屋内
     [SerializeField] private AudioClip bgm3;//ゲーム中
     [SerializeField] private AudioClip bgm4;//リザルト
+    [SerializeField] private AudioClip bgm5;//部屋選択
 
     [SerializeField] private AudioClip se1;//クリック音
     [SerializeField] private AudioClip se2;//出題者
@@ -23,6 +24,9 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip se9;//画面遷移演出1
     [SerializeField] private AudioClip se10;//画面遷移演出2
     [SerializeField] private AudioClip se11;//ドアの開く音
+    [SerializeField] private AudioClip se12;//リザルト終了時のSE
+    [SerializeField] private AudioClip se13;//ゲーム開始時のカウントダウン
+    [SerializeField] private AudioClip se14;//画面遷移演出3
 
     private bool once = true;
 
@@ -69,6 +73,14 @@ public class AudioManager : MonoBehaviour
     {
         bgm.volume = 0.15f;
         bgm.PlayOneShot(bgm4);
+    }
+
+    //DebugGameMangerで使用
+    public void BGM5()
+    {
+        bgm.clip = bgm5;
+        bgm.volume = 0.25f;
+        bgm.Play();
     }
 
     //全てのBGMを止める DebugGameMangerで使用
@@ -156,7 +168,7 @@ public class AudioManager : MonoBehaviour
     public void SE10()
     {
         se.pitch = 1.0f;
-        se.volume = 0.2f;
+        se.volume = 0.15f;
         se.PlayOneShot(se10);
     }
 
@@ -167,11 +179,33 @@ public class AudioManager : MonoBehaviour
         se.PlayOneShot(se11);
     }
 
+    //リザルト終了時の音 ResultControllerで使用
+    public void SE12()
+    {
+        se.volume = 0.25f;
+        se.PlayOneShot(se12);
+    }
+
+    //ゲーム開始時のカウントダウン音 InRoomで使用
+    public void SE13()
+    {
+        se.volume = 0.4f;
+        se.PlayOneShot(se13);
+    }
+
+    //画面遷移演出3 InRoomで使用
+    public void SE14()
+    {
+        se.volume = 0.15f;
+        se.PlayOneShot(se14);
+    }
+
     //SEのリセット
     public void ResetSE()
     {
         se.Stop();
         se.pitch = 1f;
         se.volume = 0.1f;
+        StopAllCoroutines();
     }
 }

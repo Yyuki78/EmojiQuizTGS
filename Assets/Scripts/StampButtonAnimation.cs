@@ -45,6 +45,16 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
 
                 _audio.SE1();
                 break;
+            case 2: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                _audio.SE1();
+                break;
+            case 3: //準備完了ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                _audio.SE1();
+                break;
             default:
                 Debug.Log("ミス");
                 break;
@@ -66,6 +76,15 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DORotate(new Vector3(0, 0, 360), 0.24f);
                 isDirect = true;
                 break;
+            case 2: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                break;
+            case 3: //準備完了ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                _audio.SE1();
+                break;
             default:
                 Debug.Log("ミス");
                 break;
@@ -85,6 +104,17 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 transform.DORotate(new Vector3(0, 0, 360), 0.24f);
+                break;
+            case 2: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+
+                _canvasGroup.DOFade(0f, 1.5f).SetEase(Ease.OutCubic);
+                break;
+            case 3: //準備完了ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                _audio.SE1();
                 break;
             default:
                 Debug.Log("ミス");
@@ -107,6 +137,14 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DORotate(new Vector3(0, 0, -120), 0.24f);
                 isDirect = false;
                 break;
+            case 2: //再生ボタン
+                transform.DOScale(1.2f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1.1f, 0.24f).SetEase(Ease.OutCubic);
+                break;
+            case 3: //準備完了ボタン
+                transform.DOScale(1.1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1.05f, 0.24f).SetEase(Ease.OutCubic);
+                break;
             default:
                 Debug.Log("ミス");
                 break;
@@ -126,6 +164,14 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 transform.DORotate(new Vector3(0, 0, 0), 0.24f);
+                break;
+            case 2: //再生ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
+                break;
+            case 3: //準備完了ボタン
+                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");

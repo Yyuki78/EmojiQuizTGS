@@ -191,6 +191,9 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
         //プレーヤーのカスタムプロパティ更新
         SetMyCustomProperties();
 
+        //自分のアイコン画像を？にする
+        PhotonNetwork.LocalPlayer.SetScore(10);
+
         /*
         // 部屋の情報を表示
         if (PhotonNetwork.InRoom)

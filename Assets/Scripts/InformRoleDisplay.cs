@@ -51,28 +51,28 @@ public class InformRoleDisplay : MonoBehaviourPunCallbacks
         switch (players.Length)
         {
             case 2:
-                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(0, -50, 0);
+                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-100, -150, 0);
                 IconFlameImages[0].gameObject.SetActive(true);
                 break;
             case 3:
-                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-200, -50, 0);
-                IconFlameImages[1].gameObject.transform.localPosition = new Vector3(200, -50, 0);
+                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-200, -150, 0);
+                IconFlameImages[1].gameObject.transform.localPosition = new Vector3(200, -150, 0);
                 IconFlameImages[0].gameObject.SetActive(true);
                 IconFlameImages[1].gameObject.SetActive(true);
                 break;
             case 4:
-                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-250, -50, 0);
-                IconFlameImages[1].gameObject.transform.localPosition = new Vector3(0, -50, 0);
-                IconFlameImages[2].gameObject.transform.localPosition = new Vector3(250, -50, 0);
+                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-300, -150, 0);
+                IconFlameImages[1].gameObject.transform.localPosition = new Vector3(0, -150, 0);
+                IconFlameImages[2].gameObject.transform.localPosition = new Vector3(300, -150, 0);
                 IconFlameImages[0].gameObject.SetActive(true);
                 IconFlameImages[1].gameObject.SetActive(true);
                 IconFlameImages[2].gameObject.SetActive(true);
                 break;
             case 5:
-                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-300, -50, 0);
-                IconFlameImages[1].gameObject.transform.localPosition = new Vector3(-100, -50, 0);
-                IconFlameImages[2].gameObject.transform.localPosition = new Vector3(100, -50, 0);
-                IconFlameImages[3].gameObject.transform.localPosition = new Vector3(300, -50, 0);
+                IconFlameImages[0].gameObject.transform.localPosition = new Vector3(-350, -150, 0);
+                IconFlameImages[1].gameObject.transform.localPosition = new Vector3(-125, -150, 0);
+                IconFlameImages[2].gameObject.transform.localPosition = new Vector3(125, -150, 0);
+                IconFlameImages[3].gameObject.transform.localPosition = new Vector3(350, -150, 0);
                 IconFlameImages[0].gameObject.SetActive(true);
                 IconFlameImages[1].gameObject.SetActive(true);
                 IconFlameImages[2].gameObject.SetActive(true);

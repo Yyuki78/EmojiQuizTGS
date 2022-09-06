@@ -151,13 +151,15 @@ public class MainGameController : MonoBehaviourPunCallbacks
         {
             //出題者
             Questioner = true;
-            _audio.SE2();
+            if (QuesitionNum != 1)
+                _audio.SE2();
         }
         else
         {
             //解答者
             Answerer = true;
-            _audio.SE3();
+            if (QuesitionNum != 1)
+                _audio.SE3();
         }
         yield return new WaitForSeconds(0.1f);
 
@@ -186,7 +188,18 @@ public class MainGameController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.5f);
         if (QuesitionNum == 1)
         {
-            yield return new WaitForSeconds(1f);
+            //1問目ならここで音を鳴らす(前の箇所はリセットがDebugGameManagerで入るため鳴らない)
+            if (Questioner)
+            {
+                //出題者
+                _audio.SE2();
+            }
+            if (Answerer)
+            {
+                //解答者
+                _audio.SE3();
+            }
+            yield return new WaitForSeconds(2f);
         }
 
         //カウントダウン表示
@@ -502,8 +515,9 @@ public class MainGameController : MonoBehaviourPunCallbacks
                     TransitionStateBGImage.color += new Color(0, 0, 0, 0.04f);
                     yield return new WaitForSeconds(0.02f);
                 }
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.15f);
                 _audio.SE10();
+                yield return new WaitForSeconds(0.15f);
                 for (int i = 0; i < 25; i++)
                 {
                     TransitionStateImage.fillAmount -= 0.04f;
@@ -513,9 +527,12 @@ public class MainGameController : MonoBehaviourPunCallbacks
                 _audio.ResetSE();
                 break;
             case 2:
-                _audio.SE10();
                 for (int i = 0; i < 25; i++)
                 {
+                    if (i == 2)
+                    {
+                        _audio.SE14();
+                    }
                     TransitionStateImage.fillAmount += 0.04f;
                     TransitionStateBGImage.fillAmount += 0.04f;
                     yield return new WaitForSeconds(0.02f);

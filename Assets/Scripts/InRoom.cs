@@ -44,6 +44,7 @@ public class InRoom : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject[] alreadySelectIconImages = new GameObject[6];//既に選択されたアイコンを隠す用
 
+    [SerializeField] GameObject noSelectPanel2;//カウントダウン時に背景を少し暗くする用
     [SerializeField] GameObject[] countDownImages = new GameObject[5];//カウントダウン用
 
     //音系
@@ -71,15 +72,18 @@ public class InRoom : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.SetScore(10);
 
-        for(int i = 0; i < 4; i++)
+        noSelectPanel2.SetActive(false);
+        for (int i = 0; i < 4; i++)
         {
             countDownImages[i].transform.DOScale(0f, 0.01f);
             countDownImages[i].SetActive(false);
         }
         countDownImages[4].SetActive(false);
 
+        ReadyButtonImage.gameObject.SetActive(false);
+
         StartCoroutine(StartEffect());
-        //StartCoroutine(ShareIconInfo());
+        StartCoroutine(ShareIconInfo());
         StartCoroutine(SharePlayerInfo());
     }
 
@@ -169,12 +173,16 @@ public class InRoom : MonoBehaviourPunCallbacks
 
     private IEnumerator CountDown()
     {
+        noSelectPanel2.SetActive(true);
         //カウントダウン
         countDownImages[0].SetActive(true);
         countDownImages[0].transform.DOScale(1f, 0.25f);
         yield return new WaitForSeconds(0.25f);
+        _audio.StopBGM();
+        yield return new WaitForSeconds(0.1f);
+        _audio.SE13();
+        yield return new WaitForSeconds(0.4f);
 
-        yield return new WaitForSeconds(0.5f);
         countDownImages[1].SetActive(true);
         countDownImages[1].transform.DOScale(1.2f, 0.35f);
         yield return new WaitForSeconds(0.35f);
@@ -230,6 +238,7 @@ public class InRoom : MonoBehaviourPunCallbacks
 
         //準備完了ボタンを押せるようにする
         noSelectPanel.SetActive(false);
+        ReadyButtonImage.gameObject.SetActive(true);
 
         // アイコンを設定する
         //押されたボタンのオブジェクトをイベントシステムのcurrentSelectedGameObject関数から取得　
@@ -273,23 +282,25 @@ public class InRoom : MonoBehaviourPunCallbacks
         while (true)
         {
             yield return new WaitForSeconds(0.01f);
-
-            var players = PhotonNetwork.PlayerList;
-
-            for (int i = 1; i < 7; i++)
+            //選択済みを隠すパネルを初期化
+            for (int i = 0; i < 6; i++)
             {
-                foreach (var player in players)
+                alreadySelectIconImages[i].SetActive(false);
+            }
+
+            //他の全プレイヤー取得
+            Player[] otherPlayers = PhotonNetwork.PlayerListOthers;
+
+            for (int i = 0; i < otherPlayers.Length; i++)
+            {
+                int x = otherPlayers[i].GetScore();
+                if (x != 10)
                 {
-                    if (player.GetScore() == i)
-                    {
-                        alreadySelectIconImages[i].SetActive(true);
-                    }
-                    else
-                    {
-                        alreadySelectIconImages[i].SetActive(false);
-                    }
+                    alreadySelectIconImages[x - 1].SetActive(true);
                 }
             }
+
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
