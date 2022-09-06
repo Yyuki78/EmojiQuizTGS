@@ -136,6 +136,8 @@ public class DebugGameManager : MonoBehaviour
         InRoomPanel.SetActive(false);
         MainGamePanel.SetActive(false);
         ResultPanel.SetActive(false);
+        _audio.StopBGM();
+        _audio.BGM5();
     }
 
     // InRoom‚É‚È‚Á‚½‚Æ‚«‚Ìˆ—

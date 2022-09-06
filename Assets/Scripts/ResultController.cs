@@ -141,6 +141,7 @@ public class ResultController : MonoBehaviour
         {
             yield return null;
         }
+        _audio.SE12();
         yield return new WaitForSeconds(0.5f);
         ConfettisParticle.SetActive(true);
         yield return new WaitForSeconds(1.5f);
