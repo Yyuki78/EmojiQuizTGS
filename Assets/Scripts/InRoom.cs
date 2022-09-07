@@ -231,7 +231,7 @@ public class InRoom : MonoBehaviourPunCallbacks
         yield break;
     }
 
-
+    //アイコンの選択　IconButtonに付ける
     public void OnClickIcon()
     {
         _audio.SE1();
@@ -294,7 +294,7 @@ public class InRoom : MonoBehaviourPunCallbacks
             for (int i = 0; i < otherPlayers.Length; i++)
             {
                 int x = otherPlayers[i].GetScore();
-                if (x != 10)
+                if (x >= 1 && x <= 6)
                 {
                     alreadySelectIconImages[x - 1].SetActive(true);
                 }

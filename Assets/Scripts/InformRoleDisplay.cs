@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -14,6 +15,10 @@ public class InformRoleDisplay : MonoBehaviourPunCallbacks
 
     [SerializeField] Sprite myIconFlame;
     [SerializeField] Sprite otherIconFlame;
+
+    [SerializeField] Image QuestionerDirectionImage;
+    [SerializeField] Sprite myDirection;//©•ª‚ªo‘èÒ‚Ì‚Ì–îˆó‰æ‘œ
+    [SerializeField] Sprite otherDirection;//©•ªˆÈŠO‚ªo‘èÒ‚Ì‚Ì–îˆó‰æ‘œ
 
     private bool once = false;
 
@@ -38,6 +43,7 @@ public class InformRoleDisplay : MonoBehaviourPunCallbacks
 
     private void Setting()
     {
+        QuestionerDirectionImage.sprite = otherDirection;
         QuestionerFlameImage.sprite = otherIconFlame;
         QuestionerIconImage.sprite = Resources.Load<Sprite>("Image/129");
         for (int i = 0; i < 4; i++)
@@ -89,7 +95,9 @@ public class InformRoleDisplay : MonoBehaviourPunCallbacks
         QuestionerIconImage.sprite = Resources.Load<Sprite>("IconImage/" + Qplayer.GetScore());
         if (PhotonNetwork.LocalPlayer == Qplayer)
         {
+            QuestionerDirectionImage.sprite = myDirection;
             QuestionerFlameImage.sprite = myIconFlame;
+            StartCoroutine(RotateDirection());
         }
 
         int num = 0;
@@ -109,6 +117,19 @@ public class InformRoleDisplay : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(5f);
         once = false;
 
+        yield break;
+    }
+
+    private IEnumerator RotateDirection()
+    {
+        yield return new WaitForSeconds(0.5f);
+        for (int i = 0; i < 5; i++)
+        {
+            QuestionerDirectionImage.gameObject.transform.DOLocalRotate(new Vector3(90, 0, 0), 0.65f).SetEase(Ease.InQuart);
+            yield return new WaitForSeconds(0.7f);
+            QuestionerDirectionImage.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.65f).SetEase(Ease.InQuart);
+            yield return new WaitForSeconds(0.7f);
+        }
         yield break;
     }
 }

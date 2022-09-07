@@ -50,10 +50,9 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 _audio.SE1();
                 break;
-            case 3: //準備完了ボタン
-                transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
-                _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
-                _audio.SE1();
+            case 3: //アイコン選択ボタン
+                transform.DOScale(0.97f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(0.97f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");
@@ -80,10 +79,9 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 3: //準備完了ボタン
+            case 3: //アイコン選択ボタン
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
-                _audio.SE1();
                 break;
             default:
                 Debug.Log("ミス");
@@ -111,10 +109,9 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
 
                 _canvasGroup.DOFade(0f, 1.5f).SetEase(Ease.OutCubic);
                 break;
-            case 3: //準備完了ボタン
+            case 3: //アイコン選択ボタン
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
-                _audio.SE1();
                 break;
             default:
                 Debug.Log("ミス");
@@ -141,9 +138,9 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1.2f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1.1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 3: //準備完了ボタン
-                transform.DOScale(1.1f, 0.24f).SetEase(Ease.OutCubic);
-                _canvasGroup.DOFade(1.05f, 0.24f).SetEase(Ease.OutCubic);
+            case 3: //アイコン選択ボタン
+                transform.DOScale(1.05f, 0.24f).SetEase(Ease.OutCubic);
+                _canvasGroup.DOFade(1.025f, 0.24f).SetEase(Ease.OutCubic);
                 break;
             default:
                 Debug.Log("ミス");
@@ -169,7 +166,7 @@ public class StampButtonAnimation : MonoBehaviour, IPointerClickHandler, IPointe
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
-            case 3: //準備完了ボタン
+            case 3: //アイコン選択ボタン
                 transform.DOScale(1f, 0.24f).SetEase(Ease.OutCubic);
                 _canvasGroup.DOFade(1f, 0.24f).SetEase(Ease.OutCubic);
                 break;
