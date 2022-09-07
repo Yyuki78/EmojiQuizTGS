@@ -21,6 +21,8 @@ public class VolumeController : MonoBehaviour
     [SerializeField] Sprite SoundImage;
     [SerializeField] Sprite muteSoundImage;
 
+    [SerializeField] Image sliderHandleImage;//スライダーのハンドルの画像
+
     private MovieButtons _movie;
 
     // Start is called before the first frame update
@@ -70,5 +72,8 @@ public class VolumeController : MonoBehaviour
         {
             _soundButtonImage.sprite = SoundImage;
         }
+        int n = (int)(volume + 40);
+        Debug.Log(n);
+        sliderHandleImage.sprite = Resources.Load<Sprite>("Image2/" + n);
     }
 }

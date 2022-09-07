@@ -183,7 +183,7 @@ public class ResultController : MonoBehaviour
             BlackOutPanel.color += new Color(0, 0, 0, 0.02f);
             yield return new WaitForSeconds(0.015f);
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.01f);
 
         //€”õŠ®—¹‚ğƒŠƒZƒbƒg
         PhotonNetwork.LocalPlayer.SetReady(false);
@@ -203,7 +203,7 @@ public class ResultController : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         PhotonNetwork.Disconnect();
 
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.2f);
         SceneManager.LoadScene("MainScene");
     }
 }
