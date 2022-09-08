@@ -193,6 +193,8 @@ public class RoomMatchingSystem : MonoBehaviourPunCallbacks
 
         //自分のアイコン画像を？にする
         PhotonNetwork.LocalPlayer.SetScore(10);
+        //自分の準備完了をしていない状態にする
+        PhotonNetwork.LocalPlayer.SetReady(false);
 
         /*
         // 部屋の情報を表示
